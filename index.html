@@ -1,0 +1,2244 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#15144E">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Innovation Marketplace">
+<title>Innovation Marketplace | حاضنة ابتكار 5</title>
+<meta name="theme-color" content="#0B1F3A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap');
+
+:root{
+  --navy:#15144E;
+  --navy-2:#1E1D63;
+  --navy-3:#282775;
+  --purple:#9A05B9;
+  --purple-dark:#4C0C7A;
+  --gold:#FCC342;
+  --gold-dark:#C89C45;
+  --teal:#00BF9D;
+  --teal-dark:#0F3B60;
+  --green:#63D653;
+  --green-dark:#2C5050;
+  --white:#FFFFFF;
+  --paper:#FFFFFF;
+  --ink:#15144E;
+  --muted:#6B6F93;
+  --line:rgba(21,20,78,0.12);
+  --danger:#C24B4B;
+  --radius:16px;
+  --shadow: 0 10px 30px -12px rgba(21,20,78,0.28);
+
+  /* دلالة الألوان حسب مراحل حاضنة ابتكار الفعلية:
+     الاستكشاف = أخضر (كبداية الهاكثون) | التقييم = بنفسجي (لون "التحكيم") | النتائج = تركوازي (لون "معرض الابتكار") */
+  --phase-explore:var(--green);
+  --phase-evaluation:var(--purple);
+  --phase-results:var(--teal);
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:'Tajawal',sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  direction:rtl;
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  -webkit-print-color-adjust:exact; print-color-adjust:exact;
+}
+::selection{background:var(--gold);}
+
+/* ---------- شريط الوسوم الزخرفي (العنصر المميز من الهوية) ---------- */
+.brand-ticks{
+  display:flex; align-items:flex-end; gap:5px; height:22px; padding:0 18px;
+  overflow:hidden;
+}
+.brand-ticks span{width:2px; border-radius:2px; flex-shrink:0;}
+
+/* ---------- شعار حاضنة ابتكار 5 ---------- */
+.logo-lockup{display:flex; align-items:center; gap:9px;}
+.logo-num-box{
+  width:24px; height:24px; border:2px solid var(--navy); border-radius:6px;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:900; font-size:12.5px; color:var(--navy); flex-shrink:0;
+}
+.logo-num-box.on-dark{border-color:#fff; color:#fff;}
+.logo-text{line-height:1.2;}
+.logo-text b{font-size:14.5px; font-weight:800; display:block; color:var(--navy);}
+.logo-text .en{font-size:8.5px; letter-spacing:1.2px; color:var(--muted); display:block; text-transform:uppercase;}
+.logo-lockup.on-dark .logo-text b{color:#fff;}
+.logo-lockup.on-dark .logo-text .en{color:rgba(255,255,255,0.65);}
+
+/* ---------- Layout shells ---------- */
+.app{max-width:520px; margin:0 auto; min-height:100vh; background:var(--paper); position:relative; display:flex; flex-direction:column;}
+.app.wide{max-width:1100px;}
+
+.topbar{
+  position:sticky; top:0; z-index:40; background:#fff; color:var(--navy);
+  padding:14px 18px 0; box-shadow:0 2px 14px rgba(21,20,78,0.06);
+}
+.topbar .toprow{display:flex; align-items:center; justify-content:space-between; padding-bottom:12px;}
+.topbar .phase-pill{
+  font-size:11px; font-weight:800; padding:6px 12px; border-radius:999px; color:#fff;
+}
+
+.content{flex:1; padding:18px 16px 90px;}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; border:none; cursor:pointer; font-family:inherit; padding:13px 20px; border-radius:12px; font-weight:800; font-size:14.5px; transition:transform .12s, box-shadow .12s, opacity .12s;}
+.btn:active{transform:scale(.97);}
+.btn-primary{background:var(--navy); color:#fff;}
+.btn-primary:hover{background:var(--navy-3);}
+.btn-gold{background:var(--gold); color:var(--navy);}
+.btn-teal{background:var(--teal); color:#fff;}
+.btn-purple{background:var(--purple); color:#fff;}
+.btn-outline{background:transparent; border:1.5px solid var(--line); color:var(--ink);}
+.btn-block{width:100%;}
+.btn:disabled{opacity:.45; cursor:not-allowed;}
+.btn-sm{padding:8px 14px; font-size:12.5px; border-radius:9px;}
+
+/* ---------- Cards ---------- */
+.card{background:#fff; border-radius:var(--radius); padding:16px; box-shadow:0 2px 14px rgba(21,20,78,0.07); border:1px solid var(--line);}
+.company-card{display:flex; align-items:center; gap:14px; cursor:pointer; margin-bottom:12px; position:relative; overflow:hidden;}
+.company-card::before{content:''; position:absolute; inset-inline-start:0; top:0; bottom:0; width:4px; background:var(--teal);}
+.company-card .emoji{width:52px;height:52px;border-radius:12px;background:#F4F3FB; display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+.company-card .info{flex:1; min-width:0;}
+.company-card .info b{font-size:15.5px; display:block;}
+.company-card .info span{font-size:12px; color:var(--muted);}
+.company-card .badges{display:flex; gap:6px; margin-top:6px;}
+.badge{font-size:10px; font-weight:800; padding:3px 8px; border-radius:999px;}
+.badge.visited{background:rgba(0,191,157,0.14); color:var(--teal-dark);}
+.badge.watch{background:rgba(252,195,66,0.22); color:#8a6a1f;}
+.chev{color:var(--muted); font-size:18px;}
+
+/* ---------- Detail page ---------- */
+.hero-block{background:var(--navy); color:#fff; border-radius:var(--radius); padding:22px 18px; margin-bottom:16px; position:relative; overflow:hidden;}
+.hero-block::after{content:''; position:absolute; inset-inline-end:-40px; top:-40px; width:150px;height:150px; border-radius:50%; background:radial-gradient(circle, rgba(0,191,157,.35), transparent 70%); pointer-events:none;}
+.hero-block .sector{font-size:11px; color:var(--gold); font-weight:700; letter-spacing:.5px;}
+.hero-block h1{font-size:22px; margin:6px 0 4px; font-weight:900;}
+.hero-block .booth{font-size:12.5px; color:rgba(255,255,255,.75); display:flex; align-items:center; gap:6px;}
+
+.section-title{font-size:13px; font-weight:800; color:var(--navy); margin:18px 0 8px; display:flex; align-items:center; gap:6px;}
+.section-title::before{content:''; width:4px; height:14px; background:var(--gold); border-radius:2px;}
+.body-text{font-size:14px; line-height:1.9; color:#333;}
+.action-row{display:flex; gap:10px; margin-top:20px;}
+
+/* ---------- Star rating ---------- */
+.rating-block{margin-bottom:20px;}
+.eval-progress{display:flex; justify-content:center; gap:6px; margin-bottom:8px;}
+.eval-dot{width:8px; height:8px; border-radius:50%; background:var(--line); transition:all .2s ease;}
+.eval-dot.done{background:var(--teal);}
+.eval-dot.active{background:var(--purple); width:22px; border-radius:4px;}
+
+.onboarding-overlay{
+  position:fixed; inset:0; z-index:200; background:rgba(21,20,78,0.55);
+  display:flex; align-items:center; justify-content:center; padding:20px;
+  animation:onbFadeIn .25s ease;
+}
+@keyframes onbFadeIn{ from{opacity:0;} to{opacity:1;} }
+.onboarding-card{
+  background:#fff; border-radius:22px; padding:32px 26px 26px; max-width:380px; width:100%;
+  text-align:center; box-shadow:0 20px 60px rgba(21,20,78,0.3);
+}
+.onboarding-icon{
+  width:72px; height:72px; border-radius:20px; background:linear-gradient(135deg,var(--purple),var(--purple-dark));
+  display:flex; align-items:center; justify-content:center; margin:0 auto 18px; color:#fff;
+}
+.onboarding-card h3{font-family:'Tajawal'; font-size:19px; font-weight:900; color:var(--navy); margin-bottom:10px;}
+.onboarding-card p{font-size:14px; color:var(--muted); line-height:1.8; margin-bottom:22px;}
+.onboarding-dots{display:flex; justify-content:center; gap:6px; margin-bottom:20px;}
+.onboarding-dots > div{width:7px; height:7px; border-radius:50%; background:var(--line); transition:all .2s ease;}
+.onboarding-dots > div.active{background:var(--purple); width:20px; border-radius:4px;}
+
+body.font-lg{font-size:112%;}
+body.font-xl{font-size:126%;}
+body.high-contrast{--muted:#222; --line:#000;}
+body.high-contrast .company-card, body.high-contrast .card, body.high-contrast .progress-wrap, body.high-contrast .lock-banner{border-width:1.5px !important; border-color:var(--navy) !important;}
+body.high-contrast .badge{box-shadow:inset 0 0 0 1px rgba(0,0,0,0.25); font-weight:900;}
+
+.skeleton-card{height:76px; border-radius:14px; margin-bottom:12px; background:linear-gradient(90deg,#F1F0F9 25%,#E7E5F5 37%,#F1F0F9 63%); background-size:400% 100%; animation:skeletonShimmer 1.4s ease infinite;}
+@keyframes skeletonShimmer{ 0%{background-position:100% 0;} 100%{background-position:0 0;} }
+.rating-block .rlabel{font-size:14px; font-weight:800; margin-bottom:8px;}
+.stars{display:flex; gap:6px; direction:ltr; justify-content:flex-end;}
+.stars .star{font-size:30px; cursor:pointer; color:#E3E2F0; transition:color .1s, transform .1s; user-select:none;}
+.stars .star.filled{color:var(--purple);}
+.stars .star:active{transform:scale(1.2);}
+
+.invest-options{display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;}
+.invest-chip{padding:10px 16px; border-radius:12px; border:1.5px solid var(--line); background:#fff; font-weight:800; font-size:14px; cursor:pointer; min-width:64px; text-align:center;}
+.invest-chip.selected{background:var(--purple); color:#fff; border-color:var(--purple);}
+
+/* ---------- Progress ---------- */
+.progress-wrap{background:#fff; border-radius:14px; padding:16px; border:1px solid var(--line);}
+.progress-bar{height:14px; background:#F1F0F9; border-radius:999px; overflow:hidden; margin-top:10px;}
+.progress-bar > div{height:100%; background:linear-gradient(90deg,var(--teal-dark),var(--teal)); border-radius:999px; transition:width .5s ease;}
+.progress-num{font-size:34px; font-weight:900; color:var(--navy);}
+
+.budget-sticky{
+  position:sticky; top:0; z-index:20; background:#fff;
+  margin:0 -16px 16px; padding:12px 16px; box-shadow:0 4px 14px rgba(21,20,78,0.06);
+  border-bottom:1px solid var(--line);
+}
+.budget-visual-bar{height:16px; background:#F1F0F9; border-radius:999px; overflow:hidden; position:relative;}
+.budget-visual-fill{height:100%; background:linear-gradient(90deg,var(--purple-dark),var(--purple)); border-radius:999px; transition:width .5s ease;}
+
+/* ---------- Empty / lock states ---------- */
+.empty-state{text-align:center; padding:50px 20px; color:var(--muted);}
+.empty-state .icon{font-size:40px; margin-bottom:10px;}
+.empty-state h3{color:var(--ink); font-size:16px; margin-bottom:6px;}
+.empty-state p{font-size:13px; line-height:1.7;}
+
+/* ---------- Bottom tabbar ---------- */
+.tabbar{position:fixed; bottom:0; left:0; right:0; z-index:50; max-width:520px; margin:0 auto; background:#fff; border-top:1px solid var(--line); display:flex; padding:8px 6px calc(env(safe-area-inset-bottom) + 8px); box-shadow:0 -6px 20px rgba(21,20,78,0.07);}
+.tabbar .tab{flex:1; text-align:center; padding:8px 4px; border-radius:12px; cursor:pointer; color:var(--muted); font-size:11px; font-weight:700; position:relative; transition:color .15s ease;}
+.tabbar .tab .ticon{font-size:19px; display:block; margin-bottom:2px; transition:transform .18s cubic-bezier(.34,1.56,.64,1);}
+.tabbar .tab.active{color:var(--purple);}
+.tabbar .tab.active::before{content:''; position:absolute; top:-9px; left:50%; transform:translateX(-50%); width:26px; height:3px; border-radius:0 0 3px 3px; background:linear-gradient(90deg,var(--purple-dark),var(--purple));}
+.tabbar .tab.active .ticon{transform:translateY(-2px) scale(1.08);}
+
+/* ---------- Podium / results ---------- */
+.podium{display:flex; align-items:flex-end; gap:10px; justify-content:center; margin:30px 0;}
+.podium .p{flex:1; max-width:140px; background:#fff; border:1px solid var(--line); border-radius:14px 14px 0 0; text-align:center; padding:14px 8px; position:relative;}
+.podium .p.first{background:linear-gradient(180deg,#fff, #FFF6E0); border-color:var(--gold); order:2; padding-top:26px;}
+.podium .p.second{order:1;}
+.podium .p.third{order:3;}
+.podium .medal{font-size:30px;}
+.podium .pname{font-weight:800; font-size:13px; margin-top:6px;}
+.podium .pval{font-size:11px; color:var(--teal-dark); font-weight:800; margin-top:4px;}
+
+.leaderboard-row{display:flex; align-items:center; gap:12px; padding:12px; background:#fff; border-radius:12px; border:1px solid var(--line); margin-bottom:8px;}
+.leaderboard-row .rank{width:28px;height:28px;border-radius:50%;background:#F4F3FB; display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12.5px;color:var(--navy); flex-shrink:0;}
+.leaderboard-row .rname{flex:1; font-weight:800; font-size:14px;}
+.leaderboard-row .rval{font-weight:900; color:var(--teal-dark); font-size:13px;}
+
+/* ---------- Login ---------- */
+.login-wrap{min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; background:var(--navy); position:relative; overflow:hidden;}
+.login-wrap::before{content:''; position:absolute; inset-inline-start:-80px; top:-80px; width:260px;height:260px; border-radius:50%; background:radial-gradient(circle, rgba(0,191,157,.35), transparent 70%); pointer-events:none;}
+.login-wrap::after{content:''; position:absolute; inset-inline-end:-60px; bottom:-60px; width:220px;height:220px; border-radius:50%; background:radial-gradient(circle, rgba(154,5,185,.30), transparent 70%); pointer-events:none;}
+.login-card{background:#fff; border-radius:20px; padding:28px 24px; width:100%; max-width:380px; position:relative; z-index:2; box-shadow:0 25px 60px rgba(0,0,0,.35);}
+.login-logo{display:flex; flex-direction:column; align-items:center; gap:8px; margin-bottom:16px;}
+.brand-divider{width:44px; height:3px; margin:12px auto 8px; border-radius:999px; background:linear-gradient(90deg, var(--purple), var(--teal), var(--gold));}
+.program-name{text-align:center; font-size:21px; font-weight:900; letter-spacing:3px; text-transform:uppercase; color:var(--navy); margin-top:2px;}
+.login-sub{text-align:center; font-size:12px; color:var(--muted); margin-bottom:20px; margin-top:8px;}
+.field{margin-bottom:14px;}
+.field label{display:block; font-size:12.5px; font-weight:700; margin-bottom:6px; color:var(--navy);}
+.field input{width:100%; padding:12px 14px; border-radius:11px; border:1.5px solid var(--line); font-family:inherit; font-size:14px; background:#FAFAFD;}
+.field input:focus{outline:none; border-color:var(--teal);}
+
+/* ---------- Watchlist star toggle ---------- */
+.star-toggle{position:absolute; top:16px; left:16px; width:36px;height:36px; border-radius:50%; background:rgba(255,255,255,.15); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; border:1px solid rgba(255,255,255,.3);}
+.star-toggle.on{background:var(--gold); color:var(--navy); border-color:var(--gold);}
+
+/* ---------- misc ---------- */
+.muted{color:var(--muted); font-size:12.5px;}
+.center{text-align:center;}
+.mt8{margin-top:8px;} .mt16{margin-top:16px;} .mt24{margin-top:24px;}
+.toast{position:fixed; bottom:100px; left:50%; transform:translateX(-50%); background:var(--navy); color:#fff; padding:12px 20px; border-radius:12px; font-size:13px; font-weight:700; z-index:100; box-shadow:var(--shadow); opacity:0; transition:opacity .25s, transform .25s; pointer-events:none; display:flex; align-items:center; gap:8px; white-space:nowrap;}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(-6px);}
+
+.lock-banner{background:#F4F3FB; border:1px dashed var(--line); border-radius:14px; padding:16px; text-align:center; margin-bottom:14px; font-size:12.5px; color:var(--muted);}
+
+.footer-brand{text-align:center; padding:18px 16px 30px; font-size:11px; color:var(--muted);}
+.footer-brand b{color:var(--navy);}
+
+/* Admin specific */
+.admin-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+@media(max-width:700px){.admin-grid{grid-template-columns:1fr;}}
+.stat-card{background:#fff; border-radius:14px; padding:18px; border:1px solid var(--line); border-top:3px solid var(--teal);}
+.stat-card .num{font-size:28px; font-weight:900; color:var(--navy);}
+.stat-card .lbl{font-size:12px; color:var(--muted); font-weight:700;}
+table{width:100%; border-collapse:collapse; font-size:13px;}
+th,td{padding:10px; text-align:right; border-bottom:1px solid var(--line);}
+th{color:var(--muted); font-weight:700; font-size:11.5px;}
+textarea{width:100%; padding:12px; border-radius:11px; border:1.5px solid var(--line); font-family:inherit; font-size:13.5px; background:#FAFAFD; resize:vertical; min-height:70px;}
+select{width:100%; padding:12px; border-radius:11px; border:1.5px solid var(--line); font-family:inherit; font-size:14px; background:#FAFAFD;}
+.choice-card{
+  background:#fff; border:1.5px solid var(--line); border-radius:16px; padding:22px;
+  text-align:center; cursor:pointer; transition:transform .12s, border-color .12s;
+}
+.choice-card:hover{border-color:var(--teal); transform:translateY(-2px);}
+.choice-card .icon{font-size:34px; margin-bottom:10px;}
+.choice-card b{display:block; font-size:15px; margin-bottom:4px;}
+.choice-card span{font-size:12px; color:var(--muted);}
+.icon-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-top:6px;}
+.icon-tile{border:1.5px solid var(--line); border-radius:12px; padding:10px 6px; text-align:center; cursor:pointer; transition:border-color .15s ease, background-color .15s ease, transform .1s ease;}
+.icon-tile:hover{border-color:var(--teal); background:#f7fdfc;}
+.icon-tile:active{transform:scale(.96);}
+.icon-tile.selected{border-color:var(--purple); background:rgba(154,5,185,0.06); box-shadow:0 0 0 1px var(--purple);}
+.icon-tile-icon{display:flex; align-items:center; justify-content:center; color:var(--navy); margin-bottom:5px;}
+.icon-tile.selected .icon-tile-icon{color:var(--purple);}
+.icon-tile-label{font-size:10.5px; font-weight:700; color:var(--muted); line-height:1.3;}
+.icon-tile.selected .icon-tile-label{color:var(--purple);}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<!-- ============ شاشة اختيار الدور ============ -->
+<div id="roleScreen" class="login-wrap">
+  <div class="login-card">
+    <div class="login-logo" id="roleLogo"></div>
+    <div class="brand-divider"></div>
+    <div class="program-name">Innovation Marketplace</div>
+    <div style="display:grid; gap:14px; margin-top:8px;">
+      <div class="choice-card" onclick="goToInvestor()">
+        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto;"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg></div>
+        <b>أنا مستثمر</b>
+        <span>تصفّح الشركات وقيّمها واستثمر فيها</span>
+      </div>
+      <div class="choice-card" onclick="goToCompanyPortal()">
+        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto;"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg></div>
+        <b>أنا من فريق شركة مشاركة</b>
+        <span>سجّل بيانات شركتك أو تابع أداءها</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ شاشة الدخول (مستثمر) ============ -->
+<div id="loginScreen" class="login-wrap" style="display:none;">
+  <div class="login-card">
+    <div class="login-logo" id="loginLogo"></div>
+    <div class="brand-divider"></div>
+    <div class="program-name">Innovation Marketplace</div>
+
+    <div class="field">
+      <label>اسمك</label>
+      <input id="guestName" type="text" placeholder="مثال: عبدالله الحربي">
+    </div>
+    <div class="field">
+      <label>البريد الإلكتروني</label>
+      <input id="guestEmail" type="email" inputmode="email" placeholder="مثال: name@email.com">
+    </div>
+    <div class="field">
+      <label>رقم المشروع</label>
+      <input id="guestProject" type="text" placeholder="مثال: 3">
+      <p class="muted mt8" style="font-size:11.5px;">لازم يطابق رقم المشروع اللي سجّله منظّم الفعالية مسبقاً لبريدك.</p>
+    </div>
+    <div class="field">
+      <label>كلمة المرور (رمز من 4 أرقام)</label>
+      <input id="guestPin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" style="letter-spacing:8px; font-size:20px; text-align:center;">
+    </div>
+    <button class="btn btn-gold btn-block" id="guestEnterBtn" onclick="guestEnter()">دخول المنصة</button>
+    <p class="muted center mt16" id="firstTimeHint">أول مرة؟ اختر أي رمز من 4 أرقام وتذكّره — تحتاجه في كل دخول لاحق <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;"><path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"/><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/></svg></p>
+    <p class="muted center mt8"><a href="#" onclick="goToRole(); return false;" style="color:var(--teal-dark); font-weight:700;">‹ لست مستثمراً؟ ارجع لاختيار الدور</a></p>
+  </div>
+</div>
+<script>
+function goToRole(){
+  document.getElementById('roleScreen').style.display = 'flex';
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('companyPortal').style.display = 'none';
+}
+function goToInvestor(){
+  document.getElementById('roleScreen').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+}
+async function goToCompanyPortal(){
+  document.getElementById('roleScreen').style.display = 'none';
+  document.getElementById('companyPortal').style.display = 'flex';
+  document.getElementById('reg_topLogo').innerHTML = logoLockup(false);
+  try{ SETTINGS = await DB.getSettings(); }catch(err){ /* استخدم القيم الافتراضية لو فشل */ }
+  renderCompanyPortal();
+}
+document.getElementById('guestName').addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('guestEmail').focus(); });
+document.getElementById('guestEmail').addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('guestProject').focus(); });
+document.getElementById('guestProject').addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('guestPin').focus(); });
+document.getElementById('guestPin').addEventListener('input', e=>{ e.target.value = e.target.value.replace(/\D/g,'').slice(0,4); });
+document.getElementById('guestPin').addEventListener('keydown', e=>{ if(e.key==='Enter') guestEnter(); });
+const FONT_SCALES = ['normal','lg','xl'];
+function cycleFontScale(){
+  let current = FONT_SCALES.find(s=>document.body.classList.contains('font-'+s)) || 'normal';
+  let next = FONT_SCALES[(FONT_SCALES.indexOf(current)+1) % FONT_SCALES.length];
+  applyFontScale(next);
+}
+function applyFontScale(scale){
+  document.body.classList.remove('font-lg','font-xl');
+  if (scale !== 'normal') document.body.classList.add('font-'+scale);
+  localStorage.setItem('im_font_scale', scale);
+}
+function toggleHighContrast(){
+  document.body.classList.toggle('high-contrast');
+  localStorage.setItem('im_high_contrast', document.body.classList.contains('high-contrast') ? '1' : '0');
+}
+(function applySavedAccessibilityPrefs(){
+  const savedScale = localStorage.getItem('im_font_scale');
+  if (savedScale && savedScale !== 'normal') applyFontScale(savedScale);
+  if (localStorage.getItem('im_high_contrast') === '1') document.body.classList.add('high-contrast');
+})();
+
+const ONBOARDING_SLIDES = [
+  { icon:'smile', title:'أهلاً فيك في Innovation Marketplace', text:'رحلة قصيرة توضّح لك كيف تستكشف الشركات وتقيّمها وتستثمر فيها — تاخذ أقل من دقيقة.' },
+  { icon:'compass', title:'استكشف الشركات', text:'تصفّح كل الشركات المشاركة، وسجّل زيارتك لكل شركة تزورها فعلياً — هذا يفتح لك تقييمها لاحقاً.' },
+  { icon:'edit', title:'قيّم واستثمر', text:'لكل شركة زرتها، قيّمها بـ 5 معايير خطوة بخطوة، وحدّد كم تستثمر فيها من رصيدك الاستثماري.' },
+  { icon:'trophy', title:'شوف النتائج', text:'بعد إعلان المنظّم، تقدر تشوف ترتيب الشركات والفائزين.' }
+];
+let ONBOARDING_STEP = 0;
+function maybeShowOnboarding(){
+  if (localStorage.getItem('im_onboarding_seen')) return;
+  ONBOARDING_STEP = 0;
+  renderOnboarding();
+}
+function renderOnboarding(){
+  const el = document.getElementById('onboardingOverlay');
+  const slide = ONBOARDING_SLIDES[ONBOARDING_STEP];
+  const isLast = ONBOARDING_STEP === ONBOARDING_SLIDES.length - 1;
+  el.innerHTML = `
+    <div class="onboarding-card">
+      <div class="onboarding-icon">${icon(slide.icon,{size:32})}</div>
+      <h3>${slide.title}</h3>
+      <p>${slide.text}</p>
+      <div class="onboarding-dots">${ONBOARDING_SLIDES.map((s,i)=>`<div class="${i===ONBOARDING_STEP?'active':''}"></div>`).join('')}</div>
+      <div style="display:flex; gap:10px;">
+        ${!isLast ? `<button class="btn btn-outline btn-block" onclick="onboardingSkip()">تخطي</button>` : ''}
+        <button class="btn btn-purple btn-block" onclick="onboardingNext()">${isLast?'ابدأ الآن':'التالي'}</button>
+      </div>
+    </div>
+  `;
+  el.style.display = 'flex';
+}
+function onboardingNext(){
+  if (ONBOARDING_STEP < ONBOARDING_SLIDES.length - 1){ ONBOARDING_STEP++; renderOnboarding(); }
+  else onboardingSkip();
+}
+function onboardingSkip(){
+  document.getElementById('onboardingOverlay').style.display = 'none';
+  localStorage.setItem('im_onboarding_seen', '1');
+}
+
+async function guestEnter(){
+  const name = document.getElementById('guestName').value.trim();
+  const email = document.getElementById('guestEmail').value.trim();
+  const projectNumber = document.getElementById('guestProject').value.trim();
+  const pin = document.getElementById('guestPin').value.trim();
+  if (!name){ toast('الرجاء إدخال اسمك'); return; }
+  if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ toast('الرجاء إدخال بريد إلكتروني صحيح'); return; }
+  if (!projectNumber){ toast('الرجاء إدخال رقم المشروع'); return; }
+  if (!pin || pin.length < 4){ toast('الرجاء إدخال كلمة مرور من 4 أرقام'); return; }
+
+  const btn = document.getElementById('guestEnterBtn');
+  btn.disabled = true; btn.textContent = 'جاري الدخول...';
+  try{
+    ME = await DB.investorLogin(name, email, projectNumber, pin);
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('mainApp').style.display = 'flex';
+    const wr = document.getElementById('welcomeRow');
+    if (wr) wr.innerHTML = icon('smile',{size:16}) + ' مرحباً، ' + ME.name;
+    await bootApp();
+    maybeShowOnboarding();
+  }catch(err){
+    toast((err && err.message) || 'تعذّر الدخول، حاول مرة أخرى');
+    btn.disabled = false; btn.textContent = 'دخول المنصة';
+  }
+}
+</script>
+
+<!-- ============ التطبيق الرئيسي ============ -->
+<div id="onboardingOverlay" class="onboarding-overlay" style="display:none;"></div>
+
+<div class="app" id="mainApp" style="display:none;">
+  <div class="topbar">
+    <div class="toprow">
+      <div id="topLogo"></div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <button onclick="cycleFontScale()" title="حجم الخط" style="background:#F4F3FB; border:none; border-radius:8px; width:30px; height:30px; font-weight:900; font-size:12px; color:var(--navy); cursor:pointer;">Aa</button>
+        <button id="highContrastBtn" onclick="toggleHighContrast()" title="تباين عالي" style="background:#F4F3FB; border:none; border-radius:8px; width:30px; height:30px; cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--navy);"></button>
+        <div class="phase-pill" id="phasePill">الاستكشاف</div>
+      </div>
+    </div>
+    <div id="welcomeRow" style="font-size:12.5px; font-weight:700; color:var(--navy); padding-bottom:6px;"></div>
+    <div id="myProgressBar" style="display:none; padding-bottom:8px;"></div>
+    <div style="font-size:10px; font-weight:800; letter-spacing:1.5px; color:var(--teal); text-transform:uppercase; padding-bottom:8px;">Innovation Marketplace</div>
+  </div>
+
+  <div class="content" id="content">
+    <div class="skeleton-card"></div>
+    <div class="skeleton-card"></div>
+    <div class="skeleton-card"></div>
+  </div>
+
+  <div class="tabbar">
+    <div class="tab" id="tabExplore" onclick="setView('explore')">
+      <span class="ticon"><svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block; margin:0 auto;"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></span>استكشاف
+    </div>
+    <div class="tab" id="tabWatch" onclick="setView('watchlist')">
+      <span class="ticon"><svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block; margin:0 auto;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>متابعتي
+    </div>
+    <div class="tab" id="tabEval" onclick="setView('evaluate')">
+      <span class="ticon"><svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block; margin:0 auto;"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg></span>التقييم
+    </div>
+    <div class="tab" id="tabResults" onclick="setView('results')">
+      <span class="ticon"><svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block; margin:0 auto;"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span>النتائج
+    </div>
+    <div class="tab" id="tabCommunity" onclick="setView('community')">
+      <span class="ticon"><svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block; margin:0 auto;"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg></span>المجتمع
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   Innovation Marketplace — إعدادات الاتصال بقاعدة البيانات
+   ============================================================
+   عدّل القيمتين التاليتين ببيانات مشروعك في Supabase
+   (Project Settings → API)
+   إن تُركتا فارغتين، يعمل الموقع تلقائياً في "وضع العرض التجريبي"
+   (بيانات وهمية محفوظة في الذاكرة فقط، لتجربة الموقع قبل الربط).
+   ============================================================ */
+const SUPABASE_URL = "https://oskafesmbjxjbanrmurn.supabase.co";      // مثال: https://xxxxxxxx.supabase.co
+const SUPABASE_ANON_KEY = "sb_publishable_r9f4t3k-SW6NTYEv8bS3UQ_floV4BxH";  // مفتاح anon public
+
+const DEMO_MODE = !SUPABASE_URL || !SUPABASE_ANON_KEY;
+
+/* ---------- تهيئة Supabase (عند توفر الإعدادات) ---------- */
+let supabaseClient = null;
+if (!DEMO_MODE) {
+  supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
+
+/* ============================================================
+   وضع العرض التجريبي — مخزن بيانات وهمي في المتصفح
+   ============================================================ */
+const DEMO_SEED_COMPANIES = [
+  { id:"c1", name:"Green Energy", sector:"الطاقة", emoji:"zap",
+    team_members:"سارة العتيبي، فيصل القحطاني، نورة الدوسري",
+    problem:"ارتفاع فاقد الطاقة في المباني السكنية القديمة بسبب ضعف العزل والمراقبة.",
+    solution:"نظام استشعار ذكي يراقب استهلاك الطاقة لحظياً ويقترح تعديلات تلقائية لتقليل الفاقد.",
+    value_prop:"خفض فاتورة الكهرباء حتى 30% دون تدخل يدوي من المستخدم.",
+    video_url:"", booth_number:"1" },
+  { id:"c2", name:"Med AI", sector:"الصحة", emoji:"stethoscope",
+    team_members:"عبدالله المطيري، ريم الشمري",
+    problem:"تأخر تشخيص أمراض الشبكية لدى مرضى السكري في المناطق النائية.",
+    solution:"نموذج ذكاء اصطناعي يحلل صور قاع العين ويصدر تقرير أولي خلال ثوانٍ.",
+    value_prop:"تقليل زمن الكشف المبكر من أسابيع إلى دقائق بدقة تفوق 90%.",
+    video_url:"", booth_number:"2" },
+  { id:"c3", name:"Smart Farm", sector:"الزراعة", emoji:"leaf",
+    team_members:"خالد الحربي، منى العنزي، تركي الرشيدي",
+    problem:"هدر كبير في مياه الري بالمزارع الصغيرة بسبب الجدولة اليدوية.",
+    solution:"وحدة ري ذكية تعتمد على رطوبة التربة الفعلية وتوقعات الطقس.",
+    value_prop:"توفير يصل إلى 40% من استهلاك المياه في الموسم الواحد.",
+    video_url:"", booth_number:"3" },
+  { id:"c4", name:"EduPath", sector:"التعليم", emoji:"graduation-cap",
+    team_members:"لمى الغامدي، ياسر السبيعي",
+    problem:"صعوبة تحديد المسار التعليمي المناسب لكل طالب حسب قدراته الفعلية.",
+    solution:"منصة تقيّم مهارات الطالب وتبني له خطة تعلم تكيفية أسبوعية.",
+    value_prop:"رفع نسبة إكمال المسارات التعليمية بنسبة 25%.",
+    video_url:"", booth_number:"4" },
+  { id:"c5", name:"LogiTrack", sector:"اللوجستيات", emoji:"package",
+    team_members:"بندر العصيمي، هند الزهراني",
+    problem:"ضعف تتبع الشحنات الداخلية بين فروع الشركات الصغيرة.",
+    solution:"نظام تتبع لحظي بالباركود يعمل بدون اتصال إنترنت دائم.",
+    value_prop:"تقليل الشحنات المفقودة أو المتأخرة بنسبة 50%.",
+    video_url:"", booth_number:"5" }
+];
+
+function loadDemoStore(){
+  const raw = window.__IM_DEMO_STORE__;
+  if (raw) return raw;
+  const store = {
+    event_state: {
+      phase: "explore", investor_budget: 5000,
+      min_investment_per_company: 100, max_investment_per_company: 5000,
+      min_companies_required: 1, winner_count: 3, winner_formula: 'composite',
+      evaluation_frozen: false, results_hidden: false, registration_open: true,
+      active_group: null, known_groups: []
+    },
+    companies: JSON.parse(JSON.stringify(DEMO_SEED_COMPANIES)),
+    investors: [
+      { id: 'demo-inv-1', name: 'مستثمر تجريبي 1', username: 'demo-inv-1', pin: null, evaluation_done: false },
+      { id: 'demo-inv-2', name: 'مستثمر تجريبي 2', username: 'demo-inv-2', pin: null, evaluation_done: false }
+    ],
+    visits: [],
+    watchlist: [],
+    evaluations: []
+  };
+  window.__IM_DEMO_STORE__ = store;
+  return store;
+}
+const demoStore = DEMO_MODE ? loadDemoStore() : null;
+
+function uid(){ return 'id-' + Math.random().toString(36).slice(2,10); }
+
+/* ============================================================
+   طبقة بيانات موحّدة — تعمل فوق Supabase أو وضع العرض التجريبي
+   ============================================================ */
+const DB = {
+  async getPhase(){
+    if (DEMO_MODE) return demoStore.event_state.phase;
+    const { data, error } = await supabaseClient.from('event_state').select('phase').eq('id',1).single();
+    if (error) throw error;
+    return data?.phase || 'explore';
+  },
+  async setPhase(phase){
+    if (DEMO_MODE){ demoStore.event_state.phase = phase; return; }
+    const { error } = await supabaseClient.from('event_state').update({ phase, updated_at: new Date().toISOString() }).eq('id',1);
+    if (error) throw error;
+  },
+  async getBudget(){
+    if (DEMO_MODE) return demoStore.event_state.investor_budget ?? 5000;
+    const { data, error } = await supabaseClient.from('event_state').select('investor_budget').eq('id',1).single();
+    if (error) throw error;
+    return data?.investor_budget ?? 5000;
+  },
+  async setBudget(amount){
+    amount = Math.max(0, parseInt(amount) || 0);
+    if (DEMO_MODE){ demoStore.event_state.investor_budget = amount; return; }
+    const { error } = await supabaseClient.from('event_state').update({ investor_budget: amount, updated_at: new Date().toISOString() }).eq('id',1);
+    if (error) throw error;
+  },
+  async getSettings(){
+    const defaults = {
+      investor_budget: 5000, min_investment_per_company: 100, max_investment_per_company: 5000,
+      min_companies_required: 1, winner_count: 3, winner_formula: 'composite',
+      evaluation_frozen: false, results_hidden: false, registration_open: true, evaluation_ends_at: null,
+      explore_ends_at: null, active_group: null, known_groups: [], broadcast_message: null, broadcast_message_at: null
+    };
+    if (DEMO_MODE) return { ...defaults, ...demoStore.event_state };
+    const { data, error } = await supabaseClient.from('event_state')
+      .select('investor_budget,min_investment_per_company,max_investment_per_company,min_companies_required,winner_count,winner_formula,evaluation_frozen,results_hidden,registration_open,evaluation_ends_at,explore_ends_at,active_group,known_groups,broadcast_message,broadcast_message_at')
+      .eq('id',1).single();
+    if (error) throw error;
+    return { ...defaults, ...data };
+  },
+  async setSettings(settings){
+    const clean = {
+      investor_budget: Math.max(0, parseInt(settings.investor_budget) || 0),
+      min_investment_per_company: Math.max(0, parseInt(settings.min_investment_per_company) || 0),
+      max_investment_per_company: Math.max(0, parseInt(settings.max_investment_per_company) || 0),
+      min_companies_required: Math.max(0, parseInt(settings.min_companies_required) || 0),
+      winner_count: Math.max(1, parseInt(settings.winner_count) || 1),
+      winner_formula: (settings.winner_formula === 'investment_only') ? 'investment_only' : 'composite',
+      evaluation_frozen: !!settings.evaluation_frozen,
+      results_hidden: !!settings.results_hidden,
+      registration_open: settings.registration_open === false ? false : true,
+      evaluation_ends_at: settings.evaluation_ends_at || null,
+      explore_ends_at: settings.explore_ends_at || null,
+      active_group: settings.active_group ? String(settings.active_group).trim() : null,
+      known_groups: Array.isArray(settings.known_groups) ? settings.known_groups : [],
+      broadcast_message: settings.broadcast_message || null,
+      broadcast_message_at: settings.broadcast_message_at || null
+    };
+    if (DEMO_MODE){ Object.assign(demoStore.event_state, clean); return; }
+    const { error } = await supabaseClient.from('event_state').update({ ...clean, updated_at: new Date().toISOString() }).eq('id',1);
+    if (error) throw error;
+  },
+  onPhaseChange(cb){
+    let lastPhase = null;
+    const maybeNotify = (p)=>{ if (p !== lastPhase){ lastPhase = p; cb(p); } };
+    if (DEMO_MODE){ setInterval(()=>maybeNotify(demoStore.event_state.phase), 1500); return; }
+    supabaseClient.channel('event_state_ch')
+      .on('postgres_changes', { event:'UPDATE', schema:'public', table:'event_state' }, payload=>{
+        maybeNotify(payload.new.phase);
+      }).subscribe();
+    setInterval(async ()=>{ try{ maybeNotify(await DB.getPhase()); }catch(err){ /* يُعاد المحاولة في الدورة التالية */ } }, 4000);
+  },
+
+  async getCompanies(){
+    if (DEMO_MODE) return demoStore.companies;
+    const { data, error } = await supabaseClient.from('companies')
+      .select('id,name,sector,emoji,team_members,problem,solution,value_prop,video_url,booth_number,group_tag,created_at')
+      .order('created_at');
+    if (error) throw error;
+    return data || [];
+  },
+  async addCompany(c){
+    if (DEMO_MODE){ c.id = uid(); demoStore.companies.push(c); return c; }
+    const { data, error } = await supabaseClient.from('companies').insert(c)
+      .select('id,name,sector,emoji,team_members,problem,solution,value_prop,video_url,booth_number,group_tag,created_at')
+      .single();
+    if (error) throw error;
+    return data;
+  },
+  async deleteCompany(id){
+    if (DEMO_MODE){ demoStore.companies = demoStore.companies.filter(c=>c.id!==id); return; }
+    const { error } = await supabaseClient.from('companies').delete().eq('id', id);
+    if (error) throw error;
+  },
+
+  async registerCompany(fields, accessCode){
+    accessCode = String(accessCode).trim();
+    if (!accessCode) throw new Error('الرجاء اختيار رمز وصول');
+    if (DEMO_MODE){
+      const id = uid();
+      const co = { id, ...fields, access_code: accessCode };
+      demoStore.companies.push(co);
+      return { id, name: co.name };
+    }
+    const { data, error } = await supabaseClient.rpc('register_company', {
+      p_name: fields.name, p_sector: fields.sector||'', p_emoji: fields.emoji||'',
+      p_team_members: fields.team_members||'', p_problem: fields.problem||'',
+      p_solution: fields.solution||'', p_value_prop: fields.value_prop||'',
+      p_video_url: fields.video_url||'', p_booth_number: fields.booth_number||'',
+      p_access_code: accessCode, p_group_tag: fields.group_tag||''
+    });
+    if (error) throw error;
+    return data && data[0];
+  },
+  async verifyCompanyAccess(name, accessCode){
+    name = String(name).trim();
+    accessCode = String(accessCode).trim();
+    if (DEMO_MODE){
+      const co = demoStore.companies.find(c=>c.name.trim().toLowerCase()===name.toLowerCase() && c.access_code===accessCode);
+      return co ? { id: co.id, name: co.name } : null;
+    }
+    const { data, error } = await supabaseClient.rpc('verify_company_access', { p_name: name, p_access_code: accessCode });
+    if (error) throw error;
+    return (data && data[0]) || null;
+  },
+  async updateCompanyProfile(companyId, accessCode, fields){
+    accessCode = String(accessCode).trim();
+    if (DEMO_MODE){
+      const co = demoStore.companies.find(c=>c.id===companyId && c.access_code===accessCode);
+      if (!co) throw new Error('رمز الوصول غير صحيح');
+      Object.assign(co, fields);
+      return;
+    }
+    const { error } = await supabaseClient.rpc('update_company_profile', {
+      p_company_id: companyId, p_access_code: accessCode,
+      p_sector: fields.sector||'', p_emoji: fields.emoji||'', p_team_members: fields.team_members||'',
+      p_problem: fields.problem||'', p_solution: fields.solution||'', p_value_prop: fields.value_prop||'',
+      p_video_url: fields.video_url||'', p_booth_number: fields.booth_number||'', p_group_tag: fields.group_tag||''
+    });
+    if (error) throw error;
+  },
+
+  async createInvestor(email, username, password, name, projectNumber){
+    username = String(username).trim().toLowerCase();
+    email = String(email).trim().toLowerCase();
+    name = name ? String(name).trim() : null;
+    projectNumber = String(projectNumber||'').trim();
+    if (!projectNumber) throw new Error('رقم المشروع إلزامي عند استيراد المستثمر');
+    if (DEMO_MODE){
+      if (demoStore.investors.find(i=>i.username===username)) throw new Error('اسم المستخدم مستخدم مسبقاً');
+      if (demoStore.investors.find(i=>i.email===email)) throw new Error('هذا البريد مضاف مسبقاً');
+      const inv = { id: uid(), name: name||null, username, email, pin: null, project_number: projectNumber };
+      demoStore.investors.push(inv);
+      return { id: inv.id, email: inv.email, username: inv.username };
+    }
+    const { data, error } = await supabaseClient.rpc('create_investor', { p_email: email, p_username: username, p_password: '', p_name: name, p_project_number: projectNumber });
+    if (error) throw error;
+    return data && data[0];
+  },
+  async verifyInvestor(username, password){
+    username = String(username).trim().toLowerCase();
+    password = String(password).trim();
+    if (DEMO_MODE){
+      const inv = demoStore.investors.find(i=>i.username===username && i.password===password);
+      return inv ? { id: inv.id, name: inv.name } : null;
+    }
+    const { data, error } = await supabaseClient.rpc('verify_investor', { p_username: username, p_password: password });
+    if (error) throw error;
+    return (data && data[0]) || null;
+  },
+  async adminCount(){
+    if (DEMO_MODE) return demoStore.admins ? demoStore.admins.length : 0;
+    const { data, error } = await supabaseClient.rpc('admin_count');
+    if (error) throw error;
+    return data || 0;
+  },
+  async createAdmin(username, password){
+    username = String(username).trim().toLowerCase();
+    password = String(password).trim();
+    if (DEMO_MODE){
+      demoStore.admins = demoStore.admins || [];
+      if (demoStore.admins.find(a=>a.username===username)) throw new Error('اسم المستخدم مستخدم مسبقاً');
+      demoStore.admins.push({ id: uid(), username, password });
+      return { username };
+    }
+    const { data, error } = await supabaseClient.rpc('create_admin', { p_username: username, p_password: password });
+    if (error) throw error;
+    return data && data[0];
+  },
+  async verifyAdmin(username, password){
+    username = String(username).trim().toLowerCase();
+    password = String(password).trim();
+    if (DEMO_MODE){
+      demoStore.admins = demoStore.admins || [];
+      const a = demoStore.admins.find(a=>a.username===username && a.password===password);
+      return a ? { id: a.id, username: a.username } : null;
+    }
+    const { data, error } = await supabaseClient.rpc('verify_admin', { p_username: username, p_password: password });
+    if (error) throw error;
+    return (data && data[0]) || null;
+  },
+
+  async addVisit(investor_id, company_id){
+    if (DEMO_MODE){
+      if (!demoStore.visits.find(v=>v.investor_id===investor_id && v.company_id===company_id))
+        demoStore.visits.push({ id:uid(), investor_id, company_id, visited_at:new Date().toISOString(), notes:null });
+      return;
+    }
+    const { error } = await supabaseClient.from('visits').upsert({ investor_id, company_id }, { onConflict:'investor_id,company_id' });
+    if (error) throw error;
+  },
+  async setVisitNotes(investor_id, company_id, notes){
+    notes = (notes||'').trim() || null;
+    if (DEMO_MODE){
+      const v = demoStore.visits.find(v=>v.investor_id===investor_id && v.company_id===company_id);
+      if (v) v.notes = notes;
+      return;
+    }
+    const { error } = await supabaseClient.from('visits').update({ notes }).match({ investor_id, company_id });
+    if (error) throw error;
+  },
+  async getVisits(investor_id){
+    if (DEMO_MODE) return demoStore.visits.filter(v=>v.investor_id===investor_id);
+    const { data, error } = await supabaseClient.from('visits').select('*').eq('investor_id', investor_id);
+    if (error) throw error;
+    return data || [];
+  },
+  async getAllVisits(){
+    if (DEMO_MODE) return demoStore.visits;
+    const { data, error } = await supabaseClient.from('visits').select('*');
+    if (error) throw error;
+    return data || [];
+  },
+
+  async toggleWatch(investor_id, company_id, on){
+    if (DEMO_MODE){
+      demoStore.watchlist = demoStore.watchlist.filter(w=>!(w.investor_id===investor_id && w.company_id===company_id));
+      if (on) demoStore.watchlist.push({ id:uid(), investor_id, company_id });
+      return;
+    }
+    if (on){
+      const { error } = await supabaseClient.from('watchlist').upsert({ investor_id, company_id }, { onConflict:'investor_id,company_id' });
+      if (error) throw error;
+    }else{
+      const { error } = await supabaseClient.from('watchlist').delete().match({ investor_id, company_id });
+      if (error) throw error;
+    }
+  },
+  async getWatchlist(investor_id){
+    if (DEMO_MODE) return demoStore.watchlist.filter(w=>w.investor_id===investor_id);
+    const { data, error } = await supabaseClient.from('watchlist').select('*').eq('investor_id', investor_id);
+    if (error) throw error;
+    return data || [];
+  },
+
+  async submitEvaluation(ev){
+    if (DEMO_MODE){
+      demoStore.evaluations = demoStore.evaluations.filter(e=>!(e.investor_id===ev.investor_id && e.company_id===ev.company_id));
+      demoStore.evaluations.push({ id:uid(), ...ev, submitted_at:new Date().toISOString() });
+      return;
+    }
+    const { error } = await supabaseClient.from('evaluations').upsert(ev, { onConflict:'investor_id,company_id' });
+    if (error) throw error;
+  },
+  async getEvaluations(investor_id){
+    if (DEMO_MODE) return demoStore.evaluations.filter(e=>e.investor_id===investor_id);
+    const { data, error } = await supabaseClient.from('evaluations').select('*').eq('investor_id', investor_id);
+    if (error) throw error;
+    return data || [];
+  },
+  async getAllEvaluations(){
+    if (DEMO_MODE) return demoStore.evaluations;
+    const { data, error } = await supabaseClient.from('evaluations').select('*');
+    if (error) throw error;
+    return data || [];
+  },
+  async markEvaluationDone(investor_id){
+    if (DEMO_MODE){
+      const inv = demoStore.investors.find(i=>i.id===investor_id);
+      if (inv) inv.evaluation_done = true;
+      return;
+    }
+    const { error } = await supabaseClient.rpc('mark_evaluation_done', { p_investor_id: investor_id });
+    if (error) throw error;
+  },
+
+  async setInvestorVisibility(id, visible){
+    if (DEMO_MODE){ const inv = demoStore.investors.find(i=>i.id===id); if (inv) inv.visible_to_community = !!visible; return; }
+    const { error } = await supabaseClient.rpc('set_investor_visibility', { p_id: id, p_visible: !!visible });
+    if (error) throw error;
+  },
+
+  async getAllInvestors(){
+    if (DEMO_MODE) return demoStore.investors;
+    const { data, error } = await supabaseClient.from('investors').select('id,name,username,evaluation_done,project_number,group_tag,email,job_title,background,interests,expertise,visible_to_community,created_at');
+    if (error) throw error;
+    return data || [];
+  },
+
+  /* دخول المستثمر بالاسم + رمز بسيط (PIN):
+     أول مرة يُدخل فيها اسم جديد، يُنشأ حساب تلقائياً بنفس الرمز.
+     أي دخول لاحق بنفس الاسم يتطلب نفس الرمز — يمنع انتحال شخص لاسم غيره. */
+  async investorLogin(name, email, projectNumber, pin){
+    name = String(name).trim();
+    email = String(email).trim().toLowerCase();
+    projectNumber = String(projectNumber||'').trim();
+    pin = String(pin).trim();
+    if (!name) throw new Error('الرجاء إدخال الاسم');
+    if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) throw new Error('الرجاء إدخال بريد إلكتروني صحيح');
+    if (!projectNumber) throw new Error('الرجاء إدخال رقم المشروع');
+    if (!pin) throw new Error('الرجاء إدخال كلمة المرور');
+    if (DEMO_MODE){
+      const existing = demoStore.investors.find(i => i.email === email);
+      if (!existing){
+        throw new Error('هذا البريد الإلكتروني غير مسجّل ضمن قائمة المدعوين. تواصل مع منظّم الفعالية للتأكد من إضافة بريدك.');
+      }
+      if (!existing.project_number || String(existing.project_number).toLowerCase() !== projectNumber.toLowerCase()){
+        throw new Error('رقم المشروع غير مطابق لهذا البريد الإلكتروني. تأكد من الرقم الصحيح أو تواصل مع منظّم الفعالية.');
+      }
+      if (existing.pin == null){
+        existing.pin = pin;
+        existing.name = existing.name || name; // يُقفَل الاسم من أول تفعيل — لا يُستبدل لو كان محدَّداً مسبقاً
+        existing.group_tag = existing.group_tag || demoStore.event_state.active_group || null;
+        return { id: existing.id, name: existing.name, project_number: existing.project_number, group_tag: existing.group_tag };
+      }
+      if (existing.pin !== pin) throw new Error('كلمة المرور غير صحيحة');
+      // الاسم ورقم المشروع لا يتغيّران أبداً بعد أول تفعيل
+      return { id: existing.id, name: existing.name, project_number: existing.project_number, group_tag: existing.group_tag||null };
+    }
+    const { data, error } = await supabaseClient.rpc('investor_login_or_register', { p_name: name, p_email: email, p_project_number: projectNumber, p_pin: pin });
+    if (error) throw error;
+    return data && data[0];
+  },
+
+  /* وضع الدخول المفتوح القديم (بدون أي رمز) — أُبقي عليه كمرجع احتياطي غير مستخدم حالياً. */
+  async findOrCreateInvestorByName(name){
+    name = String(name).trim();
+    if (!name) throw new Error('الرجاء إدخال الاسم');
+    const all = await this.getAllInvestors();
+    const existing = all.find(i => i.name.trim().toLowerCase() === name.toLowerCase());
+    if (existing) return { id: existing.id, name: existing.name };
+    const username = 'guest-' + Math.random().toString(36).slice(2,8);
+    const password = Math.random().toString(36).slice(2,10);
+    const created = await this.createInvestor(name, username, password);
+    return { id: created.id, name };
+  }
+};
+
+function toast(msg, duration){
+  let t = document.querySelector('.toast');
+  if (!t){ t = document.createElement('div'); t.className='toast'; document.body.appendChild(t); }
+  t.innerHTML = msg;
+  t.classList.add('show');
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(()=>t.classList.remove('show'), duration || 2200);
+}
+
+/* ============================================================
+   عناصر الهوية البصرية المشتركة — مستوحاة من نشرة حاضنة ابتكار 5
+   ============================================================ */
+
+/* ---------- نظام أيقونات SVG (بأسلوب Lucide) بدل الإيموجي ---------- */
+const ICON_PATHS = {
+  wallet: '<path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/>',
+  'check-circle': '<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',
+  check: '<path d="M20 6 9 17l-5-5"/>',
+  star: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+  'alert-triangle': '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+  'file-text': '<path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/>',
+  trophy: '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>',
+  medal: '<path d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15"/><circle cx="12" cy="17" r="5"/><path d="M12 18v-2h-.5"/>',
+  crown: '<path d="m11.562 3.266.417.836a1 1 0 0 0 1.822-.001l.416-.834a.5.5 0 0 1 .786-.14L18.9 6.02a.5.5 0 0 0 .795-.14l1.135-2.267a.5.5 0 0 1 .943.223l-1.3 10.94a1 1 0 0 1-1 .89H4.529a1 1 0 0 1-1-.89l-1.3-10.94a.5.5 0 0 1 .943-.223L4.31 5.88a.5.5 0 0 0 .795.14l3.9-3.888a.5.5 0 0 1 .786.14Z"/><path d="M5 21h14"/>',
+  sparkles: '<path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>',
+  'bar-chart': '<path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',
+  'message-circle': '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+  save: '<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8"/><path d="M7 3v5h8"/>',
+  compass: '<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>',
+  'map-pin': '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+  plus: '<path d="M5 12h14"/><path d="M12 5v14"/>',
+  download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',
+  key: '<path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"/><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/>',
+  lock: '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+  'eye-off': '<path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" y1="2" x2="22" y2="22"/>',
+  ban: '<circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>',
+  lightbulb: '<path d="M15 14c.2-1 .7-1.7 1.5-2.5A6 6 0 1 0 6.5 11.5c.7.8 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+  'help-circle': '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+  'arrow-left': '<line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>',
+  'arrow-right': '<line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>',
+  'building-2': '<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>',
+  smile: '<circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>',
+  x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+  tag: '<path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/>',
+  activity: '<path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/>',
+  share: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>',
+  search: '<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
+  'log-out': '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>',
+  settings: '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
+  users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  user: '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  eye: '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+  edit: '<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>',
+  'trending-up': '<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
+  target: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+  clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+  award: '<circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>',
+  'message-square': '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+  briefcase: '<path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/>',
+  globe: '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',
+  zap: '<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>',
+  'flask-conical': '<path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/>',
+  leaf: '<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>',
+  stethoscope: '<path d="M11 2v2"/><path d="M5 2v2"/><path d="M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1"/><path d="M8 15a6 6 0 0 0 12 0v-3"/><circle cx="20" cy="10" r="2"/>',
+  'graduation-cap': '<path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>',
+  package: '<path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><polyline points="3.29 7 12 12 20.71 7"/><path d="m7.5 4.27 9 5.15"/>'
+};
+function icon(name, opts){
+  opts = opts || {};
+  const size = opts.size || 18;
+  const stroke = opts.stroke || 2;
+  const filled = !!opts.filled;
+  const cls = opts.class ? ' ' + opts.class : '';
+  const body = ICON_PATHS[name] || '';
+  const fillAttr = filled ? 'currentColor' : 'none';
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="${fillAttr}" stroke="currentColor" stroke-width="${stroke}" stroke-linecap="round" stroke-linejoin="round" class="im-icon${cls}" style="vertical-align:-4px; flex-shrink:0;">${body}</svg>`;
+}
+
+const BRAND_COLORS = ['#9A05B9','#FCC342','#00BF9D','#63D653'];
+function ticksHTML(count){
+  count = count || 26;
+  let out = '';
+  for (let i=0;i<count;i++){
+    const color = BRAND_COLORS[i % BRAND_COLORS.length];
+    const h = 8 + ((i*7)%3===0 ? 14 : (i*5)%2===0 ? 9 : 5);
+    out += `<span style="height:${h}px;background:${color}"></span>`;
+  }
+  return `<div class="brand-ticks">${out}</div>`;
+}
+function logoLockup(dark){
+  const cls = dark ? 'logo-lockup on-dark' : 'logo-lockup';
+  const boxCls = dark ? 'logo-num-box on-dark' : 'logo-num-box';
+  return `
+    <div class="${cls}">
+      <div class="${boxCls}">5</div>
+      <div class="logo-text">
+        <b>حاضنة ابتكار</b>
+        <span class="en">Innovation Incubator</span>
+      </div>
+    </div>`;
+}
+function phaseColor(p){
+  return p==='explore' ? getComputedCssVar('--phase-explore')
+       : p==='evaluation' ? getComputedCssVar('--phase-evaluation')
+       : getComputedCssVar('--phase-results');
+}
+function getComputedCssVar(name){
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+/* ============================================================
+   توليد بيانات دخول (لإضافة المستثمرين دفعة واحدة من لوحة التحكم)
+   ============================================================ */
+function genUsername(seq){
+  return 'INV-' + String(seq).padStart(3,'0');
+}
+function genPassword(){
+  return String(Math.floor(100000 + Math.random()*900000)); // رمز رقمي من 6 خانات
+}
+
+</script>
+<script>
+let ME = null;        // المستثمر الحالي
+let PHASE = 'explore';
+let BUDGET = 1000;
+let SETTINGS = { investor_budget:5000, min_investment_per_company:100, max_investment_per_company:5000, min_companies_required:1, winner_count:3, winner_formula:'composite' };
+let COMPANIES = [];
+let VIEW = 'explore';
+let DETAIL_ID = null;
+let MY_VISITS = [];
+let MY_WATCH = [];
+let MY_EVALS = [];
+let MY_EVAL_DONE = false;
+let ALL_INVESTORS = [];
+let ME_RECORD = null;
+let COMMUNITY_SEARCH = '';
+let COMMUNITY_TAG_FILTER = '';
+
+document.getElementById('roleLogo').innerHTML = logoLockup(false);
+document.getElementById('loginLogo').innerHTML = logoLockup(false);
+document.getElementById('topLogo').innerHTML = logoLockup(false);
+document.getElementById('highContrastBtn').innerHTML = icon('eye',{size:15});
+
+async function checkScheduledPhaseTransitions(){
+  try{
+    const now = Date.now();
+    if (PHASE === 'explore' && SETTINGS.explore_ends_at && now >= new Date(SETTINGS.explore_ends_at).getTime()){
+      await DB.setPhase('evaluation');
+    } else if (PHASE === 'evaluation' && SETTINGS.evaluation_ends_at && now >= new Date(SETTINGS.evaluation_ends_at).getTime()){
+      await DB.setPhase('results');
+    }
+  }catch(err){ /* يُعاد المحاولة بالدورة القادمة */ }
+}
+
+async function bootApp(){
+  try{
+    COMPANIES = await DB.getCompanies();
+    PHASE = await DB.getPhase();
+    SETTINGS = await DB.getSettings();
+    BUDGET = SETTINGS.investor_budget;
+    if (SETTINGS.active_group){
+      COMPANIES = COMPANIES.filter(co => co.group_tag === SETTINGS.active_group);
+    }
+
+    await refreshMyData();
+    updatePhaseUI();
+    const sharedCompanyId = new URLSearchParams(window.location.search).get('company');
+    if (sharedCompanyId && COMPANIES.some(co=>co.id===sharedCompanyId)){
+      DETAIL_ID = sharedCompanyId; VIEW = 'detail';
+    }
+    const tabMap = { explore:'tabExplore', watchlist:'tabWatch', evaluate:'tabEval', results:'tabResults', community:'tabCommunity' };
+    document.getElementById(tabMap[VIEW] || 'tabExplore')?.classList.add('active');
+    render();
+    DB.onPhaseChange(async (p)=>{
+      if (p !== PHASE){ PHASE = p; updatePhaseUI(); render(); toast(phaseLabel(p) + ' بدأت الآن'); }
+    });
+    await flushPendingEvaluations();
+    setInterval(async ()=>{ await refreshMyData(); await checkScheduledPhaseTransitions(); await flushPendingEvaluations(); if(VIEW!=='detail' && VIEW!=='evalform') render(); }, 5000);
+  }catch(err){
+    console.error('bootApp() failed:', err);
+    document.getElementById('content').innerHTML = `
+      <div class="lock-banner" style="border-color:var(--danger); text-align:right;">
+        <b style="color:var(--danger);">${icon('alert-triangle',{size:16})} تعذّر تحميل البيانات</b><br>
+        <span style="font-family:monospace; font-size:12px; word-break:break-all;">${(err && (err.message||err.details||err.hint)) || JSON.stringify(err)}</span><br>
+        <span class="muted">أرسل هذه الرسالة للدعم الفني.</span>
+      </div>
+    `;
+  }
+}
+
+function totalInvested(excludeCompanyId){
+  return MY_EVALS.filter(e=>e.company_id!==excludeCompanyId).reduce((s,e)=>s+e.investment_amount,0);
+}
+function remainingBudget(excludeCompanyId){
+  return Math.max(0, BUDGET - totalInvested(excludeCompanyId));
+}
+
+async function refreshMyData(){
+  MY_VISITS = await DB.getVisits(ME.id);
+  MY_WATCH = await DB.getWatchlist(ME.id);
+  MY_EVALS = await DB.getEvaluations(ME.id);
+  try{
+    SETTINGS = await DB.getSettings();
+    BUDGET = SETTINGS.investor_budget;
+    let freshCompanies = await DB.getCompanies();
+    if (SETTINGS.active_group){
+      freshCompanies = freshCompanies.filter(co => co.group_tag === SETTINGS.active_group);
+    }
+    COMPANIES = freshCompanies;
+    checkBroadcastMessage();
+  }catch(err){ /* لا تكسر التطبيق لو فشل هذا الاستعلام */ }
+  try{
+    ALL_INVESTORS = await DB.getAllInvestors();
+    const meRecord = ALL_INVESTORS.find(i=>i.id===ME.id);
+    MY_EVAL_DONE = meRecord ? !!meRecord.evaluation_done : false;
+    ME_RECORD = meRecord || null;
+  }catch(err){ /* لا تكسر التطبيق لو فشل هذا الاستعلام */ }
+  updateMyProgressBar();
+}
+
+function updateMyProgressBar(){
+  const el = document.getElementById('myProgressBar');
+  if (!el || !COMPANIES.length) return;
+  const total = COMPANIES.length;
+  const visitedCount = MY_VISITS.length;
+  const evalCount = MY_EVALS.length;
+  el.style.display = 'block';
+  el.innerHTML = `
+    <div style="display:flex; gap:16px; font-size:11px;">
+      <div style="display:flex; align-items:center; gap:5px;">
+        ${icon('compass',{size:12,color:'var(--teal-dark)'})} <span class="muted">زرت</span> <b>${visitedCount}/${total}</b>
+      </div>
+      <div style="display:flex; align-items:center; gap:5px;">
+        ${icon('edit',{size:12,color:'var(--purple)'})} <span class="muted">قيّمت</span> <b>${evalCount}/${total}</b>
+      </div>
+    </div>
+  `;
+}
+
+let LAST_SEEN_BROADCAST = null;
+function checkBroadcastMessage(){
+  if (!SETTINGS.broadcast_message || !SETTINGS.broadcast_message_at) return;
+  if (SETTINGS.broadcast_message_at === LAST_SEEN_BROADCAST) return;
+  LAST_SEEN_BROADCAST = SETTINGS.broadcast_message_at;
+  toast(icon('sparkles',{size:16}) + ' ' + SETTINGS.broadcast_message, 6000);
+}
+
+function phaseLabel(p){
+  return p==='explore' ? 'مرحلة الاستكشاف' : p==='evaluation' ? 'مرحلة التقييم' : 'إعلان النتائج';
+}
+function updatePhaseUI(){
+  const pill = document.getElementById('phasePill');
+  pill.textContent = phaseLabel(PHASE).replace('مرحلة ','');
+  pill.style.background = phaseColor(PHASE);
+  ['tabExplore','tabWatch','tabEval','tabResults','tabCommunity'].forEach(t=>document.getElementById(t).classList.remove('active'));
+}
+function setView(v){
+  VIEW = v; DETAIL_ID = null;
+  ['tabExplore','tabWatch','tabEval','tabResults','tabCommunity'].forEach(t=>document.getElementById(t).classList.remove('active'));
+  const map = { explore:'tabExplore', watchlist:'tabWatch', evaluate:'tabEval', results:'tabResults', community:'tabCommunity' };
+  document.getElementById(map[v]).classList.add('active');
+  render();
+}
+function openDetail(id){ DETAIL_ID = id; VIEW='detail'; render(); }
+
+function visitedIds(){ return new Set(MY_VISITS.map(v=>v.company_id)); }
+function watchIds(){ return new Set(MY_WATCH.map(w=>w.company_id)); }
+function evalIds(){ return new Set(MY_EVALS.map(e=>e.company_id)); }
+
+function renderMyProgressBar(){
+  const el = document.getElementById('myProgressBar');
+  if (!el || !ME || !COMPANIES.length){ if(el) el.style.display='none'; return; }
+  if (PHASE === 'results'){ el.style.display = 'none'; return; }
+  const visitedCount = MY_VISITS.length;
+  const evalCount = MY_EVALS.length;
+  const total = COMPANIES.length;
+  el.style.display = 'flex';
+  el.innerHTML = `
+    <div style="display:flex; gap:16px; font-size:11px; color:var(--muted); font-weight:700;">
+      <span>${icon('compass',{size:12})} زرت ${visitedCount}/${total}</span>
+      <span>${icon('edit',{size:12})} قيّمت ${evalCount}/${total}</span>
+    </div>
+  `;
+}
+
+function render(){
+  renderMyProgressBar();
+  const c = document.getElementById('content');
+  if (VIEW==='detail') return renderDetail(c);
+  if (VIEW==='watchlist') return renderList(c, [...watchIds()], 'قائمة المتابعة', `لم تُضف أي شركة إلى المتابعة بعد. اضغط ${icon('star',{size:14})} داخل صفحة أي شركة أثناء الاستكشاف.`);
+  if (VIEW==='compare') return renderCompare(c);
+  if (VIEW==='summary') return renderSummary(c);
+  if (VIEW==='evaluate') return renderEvaluate(c);
+  if (VIEW==='results') return renderResults(c);
+  if (VIEW==='community') return renderCommunity(c);
+  return renderExplore(c);
+}
+
+/* ---------------- استكشاف ---------------- */
+let EXPLORE_SEARCH = '';
+let EXPLORE_SECTOR = '';
+let EXPLORE_UNVISITED_ONLY = false;
+let EXPLORE_EVALUATED_ONLY = false;
+function renderExplore(c){
+  const vSet = visitedIds(), wSet = watchIds();
+  const unvisitedWatched = [...wSet].filter(id=>!vSet.has(id));
+  c.innerHTML = `
+    <div class="section-title">الشركات المشاركة</div>
+    <p class="muted mt8" style="margin-bottom:14px;">تصفّح الشركات، ثم توجّه إلى المشروع فعلياً لتأكيد الزيارة.</p>
+    ${(PHASE==='explore' && unvisitedWatched.length) ? `
+    <div class="lock-banner" style="border-color:var(--gold); background:rgba(252,195,66,0.1); text-align:right;">
+      ${icon('star',{size:14,color:'var(--gold)'})} عندك ${unvisitedWatched.length} ${unvisitedWatched.length===1?'شركة':'شركات'} بقائمة المتابعة ما زرتها بعد — لا تنسَ تزورها قبل ما تنتهي مرحلة الاستكشاف.
+    </div>` : ''}
+    <div style="display:flex; gap:8px; margin-bottom:14px;">
+      <input type="text" id="exploreSearch" placeholder="ابحث عن شركة..." value="${EXPLORE_SEARCH}" oninput="EXPLORE_SEARCH=this.value; renderExploreList();" style="flex:2;">
+      <select id="exploreSectorFilter" onchange="EXPLORE_SECTOR=this.value; renderExploreList();" style="flex:1;">
+        <option value="">كل القطاعات</option>
+        ${[...new Set(COMPANIES.map(co=>co.sector).filter(Boolean))].map(s=>`<option value="${s}" ${EXPLORE_SECTOR===s?'selected':''}>${s}</option>`).join('')}
+      </select>
+    </div>
+    <label style="display:flex; align-items:center; gap:8px; margin-bottom:10px; cursor:pointer; font-size:13px;">
+      <input type="checkbox" id="exploreUnvisitedOnly" ${EXPLORE_UNVISITED_ONLY?'checked':''} onchange="EXPLORE_UNVISITED_ONLY=this.checked; if(this.checked){EXPLORE_EVALUATED_ONLY=false;} renderExploreList();" style="width:17px; height:17px;">
+      ${icon('compass',{size:14})} أظهر فقط الشركات اللي ما زرتها بعد
+    </label>
+    <label style="display:flex; align-items:center; gap:8px; margin-bottom:14px; cursor:pointer; font-size:13px;">
+      <input type="checkbox" id="exploreEvaluatedOnly" ${EXPLORE_EVALUATED_ONLY?'checked':''} onchange="EXPLORE_EVALUATED_ONLY=this.checked; if(this.checked){EXPLORE_UNVISITED_ONLY=false;} renderExploreList();" style="width:17px; height:17px;">
+      ${icon('edit',{size:14})} أظهر فقط الشركات اللي قيّمتها
+    </label>
+    <div id="exploreList"></div>
+  `;
+  renderExploreList();
+}
+function renderExploreList(){
+  const listEl = document.getElementById('exploreList');
+  if (!listEl) return;
+  const vSet = visitedIds(), wSet = watchIds();
+  const evalMap = {}; MY_EVALS.forEach(e=>evalMap[e.company_id]=e);
+  const s = EXPLORE_SEARCH.trim().toLowerCase();
+  const filtered = COMPANIES.filter(co=>{
+    if (s && !co.name.toLowerCase().includes(s) && !(co.sector||'').toLowerCase().includes(s)) return false;
+    if (EXPLORE_SECTOR && co.sector !== EXPLORE_SECTOR) return false;
+    if (EXPLORE_UNVISITED_ONLY && vSet.has(co.id)) return false;
+    if (EXPLORE_EVALUATED_ONLY && !evalMap[co.id]) return false;
+    return true;
+  });
+  if (!filtered.length){
+    listEl.innerHTML = `<p class="muted center" style="padding:30px 0;">${EXPLORE_UNVISITED_ONLY ? 'زرت كل الشركات المطابقة لبحثك 🎉' : EXPLORE_EVALUATED_ONLY ? 'ما قيّمت أي شركة مطابقة لبحثك بعد.' : 'لا توجد شركات مطابقة لبحثك.'}</p>`;
+    return;
+  }
+  listEl.innerHTML = filtered.map(co=>{
+    const ev = evalMap[co.id];
+    const avgRating = ev ? ((ev.innovation+ev.market_size+ev.team+ev.feasibility+ev.investability)/5).toFixed(1) : null;
+    return `
+      <div class="company-card" onclick="openDetail('${co.id}')">
+        <div class="emoji">${icon(co.emoji||'briefcase',{size:24})}</div>
+        <div class="info">
+          <b>${co.name}</b>
+          <span>${co.sector||''} ${co.booth_number ? '· مشروع '+co.booth_number : ''}</span>
+          <div class="badges">
+            ${vSet.has(co.id) ? `<span class="badge visited">${icon('check',{size:12})} تمت الزيارة</span>` : ''}
+            ${wSet.has(co.id) ? `<span class="badge watch">${icon('star',{size:14})} متابَعة</span>` : ''}
+            ${ev && ev.investment_amount>0 ? `<span class="badge" style="background:rgba(154,5,185,.1); color:var(--purple);">${icon('wallet',{size:12})} ${ev.investment_amount.toLocaleString()}</span>` : ''}
+            ${ev ? `<span class="badge" style="background:rgba(252,195,66,.18); color:#8a6400;">${icon('star',{size:11,filled:true})} ${avgRating}</span>` : ''}
+          </div>
+        </div>
+        <div class="chev">‹</div>
+      </div>
+    `;}).join('');
+}
+
+/* ---------------- قائمة عامة (متابعتي) ---------------- */
+let COMPARE_SELECTED = new Set();
+function toggleCompareSelect(id, checked){
+  if (checked){
+    if (COMPARE_SELECTED.size >= 3){ toast('يمكن مقارنة 3 شركات كحد أقصى'); render(); return; }
+    COMPARE_SELECTED.add(id);
+  } else {
+    COMPARE_SELECTED.delete(id);
+  }
+  render();
+}
+function renderList(c, ids, title, emptyMsg){
+  const list = COMPANIES.filter(co=>ids.includes(co.id));
+  if (!list.length){
+    c.innerHTML = `<div class="empty-state"><div class="icon">${icon('star',{size:40})}</div><h3>${title}</h3><p>${emptyMsg}</p></div>`;
+    return;
+  }
+  const vSet = visitedIds();
+  const evalMap = {}; MY_EVALS.forEach(e=>evalMap[e.company_id]=e);
+  c.innerHTML = `<div class="section-title">${title}</div>
+    <p class="muted mt8" style="margin-bottom:10px;">حدّد شركتين أو ثلاث للمقارنة بينها جنباً إلى جنب.</p>` + list.map(co=>{
+      const ev = evalMap[co.id];
+      const avgRating = ev ? ((ev.innovation+ev.market_size+ev.team+ev.feasibility+ev.investability)/5).toFixed(1) : null;
+      return `
+    <div class="company-card" style="align-items:center;">
+      <input type="checkbox" onclick="event.stopPropagation(); toggleCompareSelect('${co.id}', this.checked);" ${COMPARE_SELECTED.has(co.id)?'checked':''} style="width:19px; height:19px; margin-inline-end:8px; flex-shrink:0;">
+      <div class="emoji" onclick="openDetail('${co.id}')" style="cursor:pointer;">${icon(co.emoji||'briefcase',{size:24})}</div>
+      <div class="info" onclick="openDetail('${co.id}')" style="cursor:pointer;"><b>${co.name}</b><span>${co.sector||''}</span>
+        <div class="badges">
+          ${vSet.has(co.id)?`<span class="badge visited">${icon('check',{size:12})} تمت الزيارة</span>`:`<span class="badge" style="background:rgba(252,195,66,.18); color:#8a6400;">${icon('alert-triangle',{size:12})} لسا ما زرتها</span>`}
+          ${ev && ev.investment_amount>0 ? `<span class="badge" style="background:rgba(154,5,185,.1); color:var(--purple);">${icon('wallet',{size:12})} ${ev.investment_amount.toLocaleString()}</span>` : ''}
+          ${ev ? `<span class="badge" style="background:rgba(252,195,66,.18); color:#8a6400;">${icon('star',{size:11,filled:true})} ${avgRating}</span>` : ''}
+        </div>
+      </div>
+      <div class="chev" onclick="openDetail('${co.id}')" style="cursor:pointer;">‹</div>
+    </div>`;}).join('')
+    + (COMPARE_SELECTED.size >= 2 ? `
+      <button class="btn btn-purple btn-block mt16" onclick="VIEW='compare'; render();">${icon('bar-chart',{size:16})} قارن الشركات المحدّدة (${COMPARE_SELECTED.size})</button>
+    ` : '');
+}
+
+function renderCompare(c){
+  const list = COMPANIES.filter(co=>COMPARE_SELECTED.has(co.id));
+  if (list.length < 2){
+    VIEW = 'watchlist'; return render();
+  }
+  const vSet = visitedIds();
+  const evalMap = {}; MY_EVALS.forEach(e=>evalMap[e.company_id]=e);
+  const notesMap = {}; MY_VISITS.forEach(v=>notesMap[v.company_id]=v.notes);
+  const rows = [
+    ['القطاع', co=>co.sector||'—'],
+    ['رقم المشروع', co=>co.booth_number||'—'],
+    ['حالة الزيارة', co=>vSet.has(co.id) ? `${icon('check',{size:12})} تمت الزيارة` : 'لم تُزر بعد'],
+    ['حالة التقييم', co=>evalMap[co.id] ? `استثمرت ${evalMap[co.id].investment_amount.toLocaleString()}` : 'لم تُقيَّم بعد'],
+    ['ملاحظتي الخاصة', co=>notesMap[co.id] || '—'],
+  ];
+  c.innerHTML = `
+    <div class="section-title">مقارنة الشركات</div>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead><tr><th></th>${list.map(co=>`<th>${icon(co.emoji||'briefcase',{size:14})} ${co.name}</th>`).join('')}</tr></thead>
+        <tbody>
+          ${rows.map(([label, fn])=>`<tr><td style="font-weight:800;">${label}</td>${list.map(co=>`<td>${fn(co)}</td>`).join('')}</tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+    <div class="action-row">
+      <button class="btn btn-outline btn-block" onclick="COMPARE_SELECTED.clear(); VIEW='watchlist'; render();">‹ رجوع للمتابعة</button>
+    </div>
+  `;
+}
+
+/* ---------------- صفحة تفاصيل الشركة ---------------- */
+function renderDetail(c){
+  const co = COMPANIES.find(x=>x.id===DETAIL_ID);
+  if (!co){ VIEW='explore'; return render(); }
+  const visited = visitedIds().has(co.id);
+  const watched = watchIds().has(co.id);
+  const myVisit = MY_VISITS.find(v=>v.company_id===co.id);
+  c.innerHTML = `
+    <div class="hero-block">
+      <div class="star-toggle ${watched?'on':''}" onclick="toggleWatch('${co.id}')">${icon('star',{size:20,filled:watched})}</div>
+      <div class="sector">${co.sector||''}</div>
+      <h1>${icon(co.emoji||'briefcase',{size:22})} ${co.name}</h1>
+      <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-top:4px;">
+        ${co.booth_number ? `<div class="booth">${icon('briefcase',{size:13})} رقم المشروع ${co.booth_number}</div>` : ''}
+        <div onclick="shareCompany('${co.id}')" style="display:flex; align-items:center; gap:5px; cursor:pointer; font-size:12.5px; opacity:.9;">${icon('share',{size:14})} مشاركة</div>
+      </div>
+    </div>
+
+    ${co.team_members ? `<div class="section-title">أعضاء الفريق</div><div class="body-text">${co.team_members}</div>` : ''}
+    ${co.problem ? `<div class="section-title">المشكلة</div><div class="body-text">${co.problem}</div>` : ''}
+    ${co.solution ? `<div class="section-title">الحل</div><div class="body-text">${co.solution}</div>` : ''}
+    ${co.value_prop ? `<div class="section-title">القيمة المقترحة</div><div class="body-text">${co.value_prop}</div>` : ''}
+    ${co.video_url ? `<div class="section-title">فيديو دقيقة واحدة</div>${videoEmbedHTML(co.video_url)}` : ''}
+
+    <div class="action-row">
+      <button class="btn btn-outline btn-block" onclick="setView('explore')">‹ رجوع</button>
+      ${visited
+        ? `<button class="btn btn-teal btn-block" disabled>${icon('check',{size:12})} تمت زيارة المشروع</button>`
+        : `<button class="btn btn-primary btn-block" onclick="confirmVisit('${co.id}')">${icon('check-circle',{size:16})} تمت زيارة المشروع</button>`}
+    </div>
+    <p class="muted center mt16">${visited ? 'ستظهر هذه الشركة في مرحلة التقييم.' : 'اضغط الزر بعد أن تصل فعلياً إلى المشروع وتتحدث مع الفريق.'}</p>
+
+    ${visited ? `
+    <div class="section-title mt24">ملاحظاتي الخاصة ${icon('file-text',{size:14})}</div>
+    <p class="muted" style="margin-bottom:8px;">تذكير شخصي لك فقط — بيظهر لك وقت التقييم لاحقاً كمساعدة على تذكّر أبرز النقاط.</p>
+    <textarea id="visitNote" placeholder="مثال: فكرة قوية، الفريق متمكن، أسأل عن نموذج الإيرادات..." oninput="scheduleVisitNoteSave('${co.id}', this.value)">${myVisit && myVisit.notes ? myVisit.notes : ''}</textarea>
+    <p class="muted" id="visitNoteStatus" style="margin-top:6px; font-size:11px;">&nbsp;</p>
+    ` : ''}
+  `;
+}
+
+let visitNoteSaveTimer = null;
+function scheduleVisitNoteSave(companyId, value){
+  clearTimeout(visitNoteSaveTimer);
+  const statusEl = document.getElementById('visitNoteStatus');
+  if (statusEl) statusEl.textContent = 'جارِ الحفظ...';
+  visitNoteSaveTimer = setTimeout(async ()=>{
+    await DB.setVisitNotes(ME.id, companyId, value);
+    await refreshMyData();
+    const el = document.getElementById('visitNoteStatus');
+    if (el) el.innerHTML = icon('check',{size:14}) + ' تم الحفظ';
+  }, 700);
+}
+
+async function confirmVisit(id){
+  await DB.addVisit(ME.id, id);
+  await refreshMyData();
+  toast(icon('check-circle',{size:16}) + ' تم تسجيل زيارتك');
+  render();
+}
+function shareCompany(id){
+  const co = COMPANIES.find(c=>c.id===id);
+  if (!co) return;
+  const url = new URL(window.location.href);
+  url.search = '';
+  url.searchParams.set('company', id);
+  const shareText = `شوف مشروع "${co.name}" في Innovation Marketplace`;
+  if (navigator.share){
+    navigator.share({ title: co.name, text: shareText, url: url.toString() }).catch(()=>{});
+  } else if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url.toString())
+      .then(()=> toast(icon('check-circle',{size:16}) + ' تم نسخ رابط الشركة'))
+      .catch(()=> window.open(`https://wa.me/?text=${encodeURIComponent(shareText + ' ' + url.toString())}`, '_blank'));
+  } else {
+    window.open(`https://wa.me/?text=${encodeURIComponent(shareText + ' ' + url.toString())}`, '_blank');
+  }
+}
+
+async function toggleWatch(id){
+  const on = !watchIds().has(id);
+  await DB.toggleWatch(ME.id, id, on);
+  await refreshMyData();
+  toast(on ? (icon('star',{size:16,filled:true}) + ' أُضيفت إلى قائمة المتابعة') : 'أُزيلت من قائمة المتابعة');
+  render();
+}
+
+/* ---------------- مرحلة التقييم ---------------- */
+function videoEmbedHTML(url){
+  try{
+    const u = new URL(url);
+    let embedSrc = null;
+    if (u.hostname.includes('youtube.com') && u.searchParams.get('v')){
+      embedSrc = `https://www.youtube.com/embed/${u.searchParams.get('v')}`;
+    } else if (u.hostname === 'youtu.be'){
+      embedSrc = `https://www.youtube.com/embed/${u.pathname.slice(1)}`;
+    } else if (u.hostname.includes('youtube.com') && u.pathname.startsWith('/embed/')){
+      embedSrc = url;
+    } else if (u.hostname.includes('vimeo.com')){
+      const vid = u.pathname.split('/').filter(Boolean)[0];
+      if (vid) embedSrc = `https://player.vimeo.com/video/${vid}`;
+    }
+    if (embedSrc){
+      return `<div style="position:relative; padding-top:56.25%; border-radius:14px; overflow:hidden; background:#000;">
+        <iframe src="${embedSrc}" style="position:absolute; top:0; right:0; width:100%; height:100%; border:0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      </div>`;
+    }
+  }catch(err){ /* رابط غير صالح، استخدم الرابط النصي كبديل */ }
+  return `<a class="body-text" href="${url}" target="_blank" rel="noopener">${url}</a>`;
+}
+
+function isOwnProject(co){
+  return !!(ME.project_number && co.booth_number && String(ME.project_number).trim() === String(co.booth_number).trim());
+}
+
+function investorAllowedToParticipate(){
+  if (!SETTINGS.active_group) return true; // بدون تصفية: الكل مسموح
+  return ME.group_tag === SETTINGS.active_group;
+}
+
+function renderEvaluate(c){
+  if (PHASE === 'explore'){
+    c.innerHTML = `<div class="empty-state"><div class="icon">${icon('lock',{size:40})}</div><h3>التقييم مغلق حالياً</h3><p>ما زلنا في مرحلة الاستكشاف. تابع زيارة الأجنحة، وسيُفتح التقييم عند إعلان الميسر.</p></div>`;
+    return;
+  }
+  if (SETTINGS.evaluation_frozen){
+    c.innerHTML = `<div class="empty-state"><div class="icon">${icon('lock',{size:40})}</div><h3>التقييم متوقف مؤقتاً</h3><p>أوقف المنظّم استقبال أي تقييمات أو استثمارات جديدة حالياً. حاول مرة أخرى لاحقاً.</p></div>`;
+    return;
+  }
+  if (!investorAllowedToParticipate()){
+    c.innerHTML = `<div class="empty-state"><div class="icon">${icon('lock',{size:40})}</div><h3>التقييم غير متاح لك حالياً</h3><p>البرنامج المفعّل حالياً مختلف عن البرنامج المسجّل فيه حسابك. تواصل مع منظّم الفعالية إذا كنت تعتقد أن هذا خطأ.</p></div>`;
+    return;
+  }
+  const vIds = visitedIds();
+  const relevant = COMPANIES.filter(co=>vIds.has(co.id));
+  const eIds = evalIds();
+  const evalMap = {}; MY_EVALS.forEach(e=>evalMap[e.company_id]=e);
+  const invested = totalInvested(null);
+  const remaining = remainingBudget(null);
+  const companiesInvestedCount = MY_EVALS.filter(e=>e.investment_amount > 0).length;
+  const minRequired = SETTINGS.min_companies_required || 0;
+  const meetsMinRequirement = companiesInvestedCount >= minRequired;
+
+  if (!relevant.length){
+    c.innerHTML = `<div class="empty-state"><div class="icon">${icon('eye-off',{size:40})}</div><h3>لم تزر أي شركة</h3><p>لا يمكن تقييم شركات لم تُؤكَّد زيارتها خلال مرحلة الاستكشاف.</p></div>`;
+    return;
+  }
+
+  c.innerHTML = `
+    <div class="budget-sticky">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
+        <div><span class="muted" style="font-size:11.5px;">المتبقي من ميزانيتك</span> <b style="font-size:17px; color:var(--purple);">${remaining.toLocaleString()}</b></div>
+        <div class="muted" style="font-size:11.5px;">استثمرت ${invested.toLocaleString()} من ${BUDGET.toLocaleString()}</div>
+      </div>
+      <div class="budget-visual-bar">
+        <div class="budget-visual-fill" style="width:${BUDGET?Math.min(100,Math.round(invested/BUDGET*100)):0}%;"></div>
+      </div>
+      ${minRequired>0 ? `<p class="muted mt8" style="font-size:11.5px;">استثمرت في ${companiesInvestedCount} من أصل ${minRequired} شركة مطلوبة كحد أدنى</p>` : ''}
+    </div>
+    ${SETTINGS.evaluation_ends_at ? `
+    <div class="lock-banner" style="text-align:center; background:rgba(154,5,185,.08); border-color:var(--purple); margin-bottom:16px;">
+      <div class="muted" style="margin-bottom:4px;">الوقت المتبقي لإنهاء التقييم</div>
+      <div id="countdownText" style="font-size:26px; font-weight:900; color:var(--purple); font-variant-numeric:tabular-nums;">--:--:--</div>
+    </div>
+    ` : ''}
+
+    ${MY_EVAL_DONE ? `
+    <div class="lock-banner" style="border-color:var(--teal); background:rgba(0,191,157,0.08);">
+      <b style="color:var(--teal-dark);">${icon('check',{size:12})} أنهيت مرحلة التقييم</b><br>
+      يمكنك رغم ذلك مراجعة أو تعديل تقييماتك أدناه إن أردت قبل إعلان النتائج.
+    </div>` : ''}
+
+    <div class="section-title">قيّم الشركات التي زرتها</div>
+    ${relevant.map(co=>{
+      const own = isOwnProject(co);
+      const ev = evalMap[co.id];
+      const avgRating = ev ? ((ev.innovation+ev.market_size+ev.team+ev.feasibility+ev.investability)/5).toFixed(1) : null;
+      return `
+      <div class="company-card" onclick="${own?`toast('لا يمكنك تقييم أو الاستثمار في مشروعك الخاص')`:`openEvalForm('${co.id}')`}" style="cursor:pointer; ${own?'opacity:.55;':''}">
+        <div class="emoji">${icon(co.emoji||'briefcase',{size:24})}</div>
+        <div class="info"><b>${co.name}</b><span>${co.sector||''}</span>
+          <div class="badges">
+            ${own ? `<span class="badge" style="background:rgba(220,38,38,.1); color:var(--danger);">${icon('ban',{size:12})} مشروعك</span>`
+              : !eIds.has(co.id) ? '<span class="badge watch">بانتظار التقييم</span>'
+              : ev.investment_amount>0 ? `<span class="badge visited">${icon('check',{size:12})} استثمرت ${ev.investment_amount.toLocaleString()}</span>`
+              : `<span class="badge" style="background:rgba(21,20,78,.06); color:var(--navy);">${icon('check',{size:12})} قيّمتها</span>`}
+            ${!own && ev ? `<span class="badge" style="background:rgba(252,195,66,.18); color:#8a6400;">${icon('star',{size:11,filled:true})} ${avgRating}</span>` : ''}
+          </div>
+        </div>
+        <div class="chev">‹</div>
+      </div>
+    `;}).join('')}
+
+    <div class="mt24">
+      ${MY_EVAL_DONE
+        ? `<button class="btn btn-outline btn-block" disabled>${icon('check',{size:12})} تم إنهاء التقييم</button>`
+        : meetsMinRequirement
+          ? `<button class="btn btn-teal btn-block" onclick="finishEvaluation()">${icon('check-circle',{size:16})} إنهاء مرحلة التقييم</button>
+             <p class="muted center mt8">اضغط هنا لما تنتهي من تقييم كل الشركات اللي تحب — يساعد المنظّم يعرف أنك خلصت.</p>`
+          : `<button class="btn btn-outline btn-block" disabled>${icon('check-circle',{size:16})} إنهاء مرحلة التقييم</button>
+             <p class="muted center mt8" style="color:var(--danger);">لازم تستثمر فعلياً في ${minRequired} شركة على الأقل قبل إنهاء التقييم (استثمرت في ${companiesInvestedCount} حتى الآن).</p>`}
+    </div>
+  `;
+  if (SETTINGS.evaluation_ends_at) startCountdown(SETTINGS.evaluation_ends_at);
+  updateBudgetStickyOffset();
+}
+
+function updateBudgetStickyOffset(){
+  const topbar = document.querySelector('.topbar');
+  const budgetBar = document.querySelector('.budget-sticky');
+  if (topbar && budgetBar){
+    budgetBar.style.top = topbar.getBoundingClientRect().height + 'px';
+  }
+}
+window.addEventListener('resize', updateBudgetStickyOffset);
+
+let COUNTDOWN_INTERVAL = null;
+function startCountdown(deadlineISO){
+  clearInterval(COUNTDOWN_INTERVAL);
+  function tick(){
+    const el = document.getElementById('countdownText');
+    if (!el){ clearInterval(COUNTDOWN_INTERVAL); return; }
+    const diff = new Date(deadlineISO) - new Date();
+    if (diff <= 0){
+      el.textContent = 'انتهى الوقت';
+      clearInterval(COUNTDOWN_INTERVAL);
+      return;
+    }
+    const h = Math.floor(diff/3600000);
+    const m = Math.floor((diff%3600000)/60000);
+    const s = Math.floor((diff%60000)/1000);
+    el.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  }
+  tick();
+  COUNTDOWN_INTERVAL = setInterval(tick, 1000);
+}
+
+async function finishEvaluation(){
+  const companiesInvestedCount = MY_EVALS.filter(e=>e.investment_amount > 0).length;
+  if (companiesInvestedCount < (SETTINGS.min_companies_required || 0)){
+    toast(`لازم تستثمر في ${SETTINGS.min_companies_required} شركة على الأقل أولاً`); return;
+  }
+  await DB.markEvaluationDone(ME.id);
+  MY_EVAL_DONE = true;
+  VIEW = 'summary';
+  render();
+}
+
+function renderSummary(c){
+  const companyMap = {}; COMPANIES.forEach(co=>companyMap[co.id]=co);
+  const invested = MY_EVALS.filter(e=>e.investment_amount>0).sort((a,b)=>b.investment_amount-a.investment_amount);
+  const total = invested.reduce((s,e)=>s+e.investment_amount,0);
+  c.innerHTML = `
+    <div class="empty-state" style="padding-bottom:6px;">
+      <div class="icon">${icon('sparkles',{size:40,color:'var(--gold)'})}</div>
+      <h3>تم إنهاء تقييمك بنجاح!</h3>
+      <p>شكراً لمشاركتك في سوق الابتكار. هذا تقرير مفصّل باستثماراتك وتقييماتك:</p>
+    </div>
+    <div class="progress-wrap" style="margin-bottom:16px;">
+      <div class="muted">إجمالي المبلغ المستثمَر</div>
+      <div class="progress-num">${total.toLocaleString()}</div>
+      <p class="muted mt8">في ${invested.length} من أصل ${MY_VISITS.length} شركة زرتها</p>
+    </div>
+    ${invested.length ? invested.map(e=>{
+      const co = companyMap[e.company_id];
+      const avgRating = ((e.innovation+e.market_size+e.team+e.feasibility+e.investability)/5).toFixed(1);
+      return `
+      <div class="company-card" style="cursor:pointer; flex-wrap:wrap;" onclick="openDetail('${e.company_id}')">
+        <div class="emoji">${co ? icon(co.emoji||'briefcase',{size:24}) : ''}</div>
+        <div class="info"><b>${co ? co.name : '—'}</b><span>${co ? co.sector||'' : ''}</span></div>
+        <div style="text-align:left;">
+          <div style="font-weight:900; color:var(--purple); font-size:15px;">${e.investment_amount.toLocaleString()}</div>
+          <div class="muted" style="font-size:11.5px;">${icon('star',{size:11,filled:true,color:'var(--gold)'})} ${avgRating} / 5</div>
+        </div>
+      </div>
+    `;}).join('') : '<p class="muted center">لم تستثمر في أي شركة.</p>'}
+    <div class="action-row" style="flex-direction:column; gap:10px;">
+      <button class="btn btn-outline btn-block" onclick="VIEW='evaluate'; render();">‹ رجوع لقائمة التقييم</button>
+    </div>
+  `;
+}
+
+
+let CURRENT_RATING = { innovation:0, market_size:0, team:0, feasibility:0, investability:0, amount:null, notes:'' };
+
+function openEvalForm(id){
+  if (SETTINGS.evaluation_frozen){
+    toast('التقييم متوقف مؤقتاً من قبل المنظّم');
+    return;
+  }
+  if (!investorAllowedToParticipate()){
+    toast('التقييم غير متاح لك حالياً — البرنامج المفعّل مختلف عن برنامجك');
+    return;
+  }
+  const co = COMPANIES.find(x=>x.id===id);
+  if (co && isOwnProject(co)){
+    toast('لا يمكنك تقييم أو الاستثمار في مشروعك الخاص');
+    return;
+  }
+  DETAIL_ID = id; VIEW='evalform'; EVAL_STEP = 0;
+  const existing = MY_EVALS.find(e=>e.company_id===id);
+  CURRENT_RATING = existing
+    ? { innovation:existing.innovation, market_size:existing.market_size, team:existing.team, feasibility:existing.feasibility, investability:existing.investability, amount:existing.investment_amount, notes:existing.notes||'' }
+    : { innovation:0, market_size:0, team:0, feasibility:0, investability:0, amount:null, notes:'' };
+  renderEvalForm();
+}
+
+let EVAL_STEP = 0;
+const CRITERIA = [
+  ['innovation','الابتكار', ['هل الفكرة جديدة أو تحل المشكلة بطريقة مختلفة؟', 'هل فيها ميزة تُميّزها عن الحلول الموجودة؟']],
+  ['market_size','حجم السوق', ['هل يوجد عدد كافٍ من العملاء المحتملين؟', 'هل السوق المستهدف قابل للنمو مستقبلاً؟']],
+  ['team','الفريق', ['هل يملك الفريق الخبرة والمهارات اللازمة للتنفيذ؟', 'هل يبدو الفريق متكاملاً ومتفاهماً؟']],
+  ['feasibility','إمكانية التنفيذ', ['هل الحل قابل للتطبيق فعلياً بالموارد الحالية؟', 'هل لديهم نموذج أولي أو خطة تنفيذ واضحة؟']],
+  ['investability','القابلية للاستثمار', ['هل تستحق هذه الشركة استثمارك الفعلي؟', 'هل نموذج العمل يحقق عائداً مستداماً؟']]
+];
+const EVAL_STEPS = [...CRITERIA.map(([key,label,points])=>({type:'criteria', key, label, points})), {type:'investment'}, {type:'notes'}, {type:'review'}];
+
+function renderEvalForm(){
+  const co = COMPANIES.find(x=>x.id===DETAIL_ID);
+  const c = document.getElementById('content');
+  const remaining = remainingBudget(co.id);
+  const minAmt = SETTINGS.min_investment_per_company;
+  const maxAmt = Math.min(SETTINGS.max_investment_per_company, BUDGET);
+  let amounts = [];
+  if (maxAmt >= minAmt){
+    const steps = 5;
+    for (let i=0;i<steps;i++){
+      const v = Math.round((minAmt + (maxAmt-minAmt)*i/(steps-1)) / 10) * 10;
+      if (!amounts.includes(v)) amounts.push(v);
+    }
+  }
+  const myVisit = MY_VISITS.find(v=>v.company_id===co.id);
+  const step = EVAL_STEPS[EVAL_STEP];
+  const totalSteps = EVAL_STEPS.length;
+
+  let stepHtml = '';
+  if (step.type === 'criteria'){
+    stepHtml = `
+      <div class="rating-block">
+        <div class="rlabel">${step.label}</div>
+        <ul class="muted" style="margin:0 0 14px; padding-inline-start:18px; line-height:1.8; font-size:12.5px;">
+          ${step.points.map(p=>`<li>${p}</li>`).join('')}
+        </ul>
+        <div class="stars" id="stars_${step.key}" style="justify-content:center; gap:10px;">
+          ${[1,2,3,4,5].map(n=>`<span class="star ${CURRENT_RATING[step.key]>=n?'filled':''}" onclick="setStar('${step.key}',${n})">${icon('star',{size:34,filled:CURRENT_RATING[step.key]>=n})}</span>`).join('')}
+        </div>
+      </div>
+    `;
+  } else if (step.type === 'investment'){
+    stepHtml = `
+      <div class="rating-block">
+        <div class="rlabel">كم تستثمر في هذه الشركة؟</div>
+        <p class="muted" style="margin-bottom:8px;">
+          المتبقي من ميزانيتك: <b style="color:var(--purple);">${remaining.toLocaleString()}</b> من أصل ${BUDGET.toLocaleString()}
+          — بين ${minAmt.toLocaleString()} و${maxAmt.toLocaleString()} للشركة الواحدة
+        </p>
+        <div class="invest-options">
+          ${amounts.map(a=>`<div class="invest-chip ${CURRENT_RATING.amount===a?'selected':''}" style="${a>remaining?'opacity:.35; cursor:not-allowed;':''}" onclick="${a>remaining?'':`setAmount(${a})`}">${a.toLocaleString()}</div>`).join('')}
+        </div>
+        ${remaining<minAmt ? '<p class="muted" style="color:var(--danger); margin-top:8px;">ميزانيتك المتبقية أقل من الحد الأدنى للاستثمار بشركة. يمكنك تعديل استثمارك بشركة أخرى لتحرير مبلغ.</p>' : ''}
+        <div class="invest-chip ${CURRENT_RATING.amount===0?'selected':''}" style="width:100%; margin-top:10px; box-sizing:border-box; text-align:center;" onclick="setAmount(0)">
+          ${icon('ban',{size:16})} لا أرغب بالاستثمار في هذه الشركة الآن
+        </div>
+      </div>
+    `;
+  } else if (step.type === 'notes'){
+    stepHtml = `
+      ${myVisit && myVisit.notes ? `
+      <div class="lock-banner" style="text-align:right; margin-bottom:16px;">
+        <b>${icon('file-text',{size:14})} ملاحظتك من الاستكشاف:</b><br>${myVisit.notes}
+      </div>` : ''}
+      <div class="rating-block">
+        <div class="rlabel">ملاحظاتك للفريق (اختياري)</div>
+        <textarea id="evalNotes" placeholder="رأيك بالفكرة، اقتراح، أو سؤال تحب تشاركه مع الفريق..." oninput="CURRENT_RATING.notes=this.value">${CURRENT_RATING.notes||''}</textarea>
+      </div>
+    `;
+  } else if (step.type === 'review'){
+    stepHtml = `
+      <div class="rating-block">
+        <div class="rlabel">راجع تقييمك قبل الإرسال</div>
+        <p class="muted" style="margin-bottom:14px;">تأكد من كل شيء قبل الإرسال النهائي — تقدر تضغط على أي بند لتعديله.</p>
+        ${CRITERIA.map(([key,label],i)=>`
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--line); cursor:pointer;" onclick="EVAL_STEP=${i}; renderEvalForm();">
+            <span style="font-size:13.5px;">${label}</span>
+            <span style="display:flex; align-items:center; gap:4px;">${icon('star',{size:14,filled:true,color:'var(--gold)'})} <b>${CURRENT_RATING[key]}</b> / 5</span>
+          </div>
+        `).join('')}
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--line); cursor:pointer;" onclick="EVAL_STEP=5; renderEvalForm();">
+          <span style="font-size:13.5px;">مبلغ الاستثمار</span>
+          <b style="color:var(--purple);">${(CURRENT_RATING.amount||0).toLocaleString()}</b>
+        </div>
+        ${CURRENT_RATING.notes ? `
+        <div style="padding:10px 0; cursor:pointer;" onclick="EVAL_STEP=6; renderEvalForm();">
+          <span class="muted" style="font-size:12.5px;">ملاحظاتك:</span>
+          <p style="font-size:13px; margin-top:4px;">${CURRENT_RATING.notes}</p>
+        </div>` : ''}
+      </div>
+    `;
+  }
+
+  const canAdvance = step.type==='criteria' ? CURRENT_RATING[step.key]>0 : (step.type==='investment' ? CURRENT_RATING.amount!==null : true);
+  const isLastStep = EVAL_STEP === totalSteps-1;
+
+  c.innerHTML = `
+    <div class="section-title">تقييم ${icon(co.emoji||'briefcase',{size:16})} ${co.name}</div>
+    <div class="eval-progress">
+      ${EVAL_STEPS.map((s,i)=>`<div class="eval-dot ${i===EVAL_STEP?'active':''} ${i<EVAL_STEP?'done':''}"></div>`).join('')}
+    </div>
+    <p class="muted center" style="font-size:12px; margin-bottom:16px;">خطوة ${EVAL_STEP+1} من ${totalSteps}</p>
+    ${stepHtml}
+    <div class="action-row">
+      <button class="btn btn-outline btn-block" onclick="${EVAL_STEP===0 ? `setView('evaluate')` : 'evalStepBack()'}">‹ ${EVAL_STEP===0?'رجوع':'السابق'}</button>
+      ${isLastStep
+        ? `<button class="btn btn-purple btn-block" onclick="submitEval('${co.id}')">إرسال التقييم</button>`
+        : `<button class="btn btn-purple btn-block" onclick="evalStepNext()" ${!canAdvance?'disabled':''}>التالي ›</button>`}
+    </div>
+  `;
+}
+function evalStepNext(){ if (EVAL_STEP < EVAL_STEPS.length-1) EVAL_STEP++; renderEvalForm(); }
+function evalStepBack(){ if (EVAL_STEP > 0) EVAL_STEP--; renderEvalForm(); }
+function setStar(key, n){ CURRENT_RATING[key] = n; renderEvalForm(); }
+function setAmount(a){ CURRENT_RATING.amount = a; renderEvalForm(); }
+
+const PENDING_EVALS_KEY = 'im_pending_evals';
+function queuePendingEvaluation(payload){
+  try{
+    const queue = JSON.parse(localStorage.getItem(PENDING_EVALS_KEY) || '[]');
+    // استبدل أي تقييم سابق بانتظار الإرسال لنفس الشركة بنفس المستثمر (آخر تعديل يفوز)
+    const filtered = queue.filter(p => !(p.investor_id===payload.investor_id && p.company_id===payload.company_id));
+    filtered.push(payload);
+    localStorage.setItem(PENDING_EVALS_KEY, JSON.stringify(filtered));
+  }catch(err){ console.error('queuePendingEvaluation failed:', err); }
+}
+async function flushPendingEvaluations(){
+  let queue;
+  try{ queue = JSON.parse(localStorage.getItem(PENDING_EVALS_KEY) || '[]'); }catch(err){ return; }
+  if (!queue.length) return;
+  const stillPending = [];
+  for (const payload of queue){
+    try{ await DB.submitEvaluation(payload); }
+    catch(err){ stillPending.push(payload); }
+  }
+  localStorage.setItem(PENDING_EVALS_KEY, JSON.stringify(stillPending));
+  if (stillPending.length < queue.length){
+    const sentCount = queue.length - stillPending.length;
+    toast(icon('check-circle',{size:16}) + ` تم إرسال ${sentCount} تقييم كان بانتظار الاتصال`);
+    if (ME) await refreshMyData();
+    if (VIEW!=='detail' && VIEW!=='evalform') render();
+  }
+}
+window.addEventListener('online', flushPendingEvaluations);
+
+async function submitEval(companyId){
+  if (SETTINGS.evaluation_frozen){
+    toast('التقييم متوقف مؤقتاً من قبل المنظّم');
+    return;
+  }
+  if (!investorAllowedToParticipate()){
+    toast('التقييم غير متاح لك حالياً — البرنامج المفعّل مختلف عن برنامجك');
+    return;
+  }
+  const co = COMPANIES.find(x=>x.id===companyId);
+  if (co && isOwnProject(co)){
+    toast('لا يمكنك تقييم أو الاستثمار في مشروعك الخاص');
+    return;
+  }
+  const r = CURRENT_RATING;
+  if (!r.innovation||!r.market_size||!r.team||!r.feasibility||!r.investability|| r.amount===null || r.amount===undefined){
+    toast('الرجاء إكمال جميع التقييمات، واختيار مبلغ الاستثمار (أو "لا أرغب بالاستثمار")'); return;
+  }
+  if (r.amount > remainingBudget(companyId)){
+    toast('المبلغ يتجاوز ميزانيتك المتبقية'); return;
+  }
+  if (r.amount > 0 && r.amount < SETTINGS.min_investment_per_company){
+    toast(`أقل مبلغ استثمار مسموح هو ${SETTINGS.min_investment_per_company.toLocaleString()}`); return;
+  }
+  if (r.amount > SETTINGS.max_investment_per_company){
+    toast(`أعلى مبلغ استثمار مسموح هو ${SETTINGS.max_investment_per_company.toLocaleString()}`); return;
+  }
+  const payload = {
+    investor_id: ME.id, company_id: companyId,
+    innovation:r.innovation, market_size:r.market_size, team:r.team,
+    feasibility:r.feasibility, investability:r.investability, investment_amount:r.amount,
+    notes: (r.notes||'').trim() || null
+  };
+  try{
+    await DB.submitEvaluation(payload);
+    await refreshMyData();
+    toast(icon('sparkles',{size:16}) + ' تم إرسال تقييمك');
+    setView('evaluate');
+  }catch(err){
+    console.error('submitEval failed:', err);
+    const looksOffline = !navigator.onLine || /fetch|network|Failed to fetch/i.test(err.message||'');
+    if (looksOffline){
+      queuePendingEvaluation(payload);
+      toast(icon('check-circle',{size:16}) + ' لا يوجد اتصال حالياً — تم حفظ تقييمك وسيُرسَل تلقائياً عند عودة الإنترنت');
+      setView('evaluate');
+    } else {
+      toast('تعذّر حفظ التقييم — تحقق من الاتصال وحاول مرة أخرى');
+    }
+  }
+}
+
+/* ---------------- النتائج ---------------- */
+async function renderResults(c){
+  if (PHASE !== 'results' || SETTINGS.results_hidden){
+    const evalCount = MY_EVALS.length;
+    c.innerHTML = `
+      <div class="empty-state"><div class="icon">${icon('clock',{size:40})}</div><h3>النتائج لم تُعلن بعد</h3>
+      <p>ستظهر النتائج فور انتهاء الجميع من التقييم وإعلان الميسر.</p></div>
+      <div class="progress-wrap">
+        <div class="muted">تقييماتك المُرسلة</div>
+        <div class="progress-num">${evalCount} / ${COMPANIES.length}</div>
+      </div>
+    `;
+    return;
+  }
+  const evals = await DB.getAllEvaluations();
+  const ranked = computeRanking(evals);
+  const winnerCount = SETTINGS.winner_count || 3;
+  const podiumSlots = Math.min(3, winnerCount);
+  c.innerHTML = `
+    <div class="section-title">النتائج النهائية</div>
+    <div class="podium">
+      ${ranked[1] && podiumSlots>=2 ? podiumCell(ranked[1],'second',icon('medal',{size:30})) : ''}
+      ${ranked[0] && podiumSlots>=1 ? podiumCell(ranked[0],'first',icon('crown',{size:32})) : ''}
+      ${ranked[2] && podiumSlots>=3 ? podiumCell(ranked[2],'third',icon('medal',{size:28})) : ''}
+    </div>
+    ${ranked.map((r,i)=>`
+      <div class="leaderboard-row" style="${i<winnerCount?'border-color:var(--gold); border-width:1.5px;':''}">
+        <div class="rank" style="${i<winnerCount?'background:var(--gold); color:var(--navy);':''}">${i+1}</div>
+        <div class="rname">${i<winnerCount?icon('trophy',{size:15})+' ':''}${icon(r.company.emoji||'briefcase',{size:15})} ${r.company.name}</div>
+        <div class="rval">SAR ${r.valuation.toLocaleString()}</div>
+      </div>
+    `).join('')}
+  `;
+}
+
+async function renderCommunity(c){
+  const myVisible = !!(ME_RECORD && ME_RECORD.visible_to_community);
+  const directory = ALL_INVESTORS.filter(i => i.id !== ME.id && i.visible_to_community && i.name);
+  const s = COMMUNITY_SEARCH.trim().toLowerCase();
+  const filtered = directory.filter(i=>{
+    if (s && !i.name.toLowerCase().includes(s) && !(i.job_title||'').toLowerCase().includes(s)) return false;
+    if (COMMUNITY_TAG_FILTER){
+      const allTags = [...(i.interests||[]), ...(i.expertise||[])];
+      if (!allTags.includes(COMMUNITY_TAG_FILTER)) return false;
+    }
+    return true;
+  });
+  const allTagsUnion = [...new Set(directory.flatMap(i=>[...(i.interests||[]), ...(i.expertise||[])]))];
+
+  c.innerHTML = `
+    <div class="section-title">${icon('users',{size:16})} مجتمع المستثمرين</div>
+    <div class="card" style="margin-bottom:18px; background:#faf9ff;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <b style="font-size:13.5px;">إظهار ملفي لبقية المستثمرين</b>
+          <p class="muted mt8" style="font-size:11.5px;">لو فعّلته، يشوف بقية المستثمرين اسمك ومسماك الوظيفي ومجالات اهتمامك وخبرتك — عشان يتواصلون معك.</p>
+        </div>
+        <label style="display:flex; align-items:center; flex-shrink:0; margin-right:12px;">
+          <input type="checkbox" id="communityVisibleToggle" ${myVisible?'checked':''} onchange="toggleCommunityVisibility(this.checked)" style="width:22px; height:22px; accent-color:var(--purple); cursor:pointer;">
+        </label>
+      </div>
+    </div>
+
+    ${!myVisible ? `
+      <div class="empty-state">
+        <div class="icon">${icon('lock',{size:36})}</div>
+        <h3>فعّل الظهور أولاً</h3>
+        <p>لازم توافق على إظهار ملفك أولاً عشان تقدر تشوف بقية المستثمرين اللي وافقوا — التبادل بالثقة بالاتجاهين.</p>
+      </div>
+    ` : `
+      <div style="display:flex; gap:8px; margin-bottom:14px;">
+        <input type="text" placeholder="ابحث بالاسم أو المسمى الوظيفي..." value="${COMMUNITY_SEARCH}" oninput="COMMUNITY_SEARCH=this.value; renderCommunity(document.getElementById('content'));" style="flex:2;">
+        <select onchange="COMMUNITY_TAG_FILTER=this.value; renderCommunity(document.getElementById('content'));" style="flex:1;">
+          <option value="">كل المجالات</option>
+          ${allTagsUnion.map(t=>`<option value="${t}" ${COMMUNITY_TAG_FILTER===t?'selected':''}>${t}</option>`).join('')}
+        </select>
+      </div>
+      ${filtered.length ? filtered.map(i=>`
+        <div class="card" style="margin-bottom:10px;">
+          <b style="font-size:14px;">${i.name}</b>
+          ${i.job_title ? `<p class="muted mt8" style="font-size:12.5px;">${i.job_title}</p>` : ''}
+          ${i.background ? `<p style="font-size:12.5px; margin-top:8px;">${i.background}</p>` : ''}
+          <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:10px;">
+            ${(i.interests||[]).map(t=>`<span class="badge" style="background:rgba(154,5,185,.1); color:var(--purple);">${t}</span>`).join('')}
+            ${(i.expertise||[]).map(t=>`<span class="badge" style="background:rgba(0,191,157,.12); color:var(--teal-dark);">${t}</span>`).join('')}
+          </div>
+        </div>
+      `).join('') : `<p class="muted center" style="padding:30px 0;">${directory.length ? 'لا يوجد مستثمر مطابق لبحثك.' : 'لا يوجد مستثمرون آخرون وافقوا على الظهور بعد.'}</p>`}
+    `}
+  `;
+}
+async function toggleCommunityVisibility(visible){
+  try{
+    await DB.setInvestorVisibility(ME.id, visible);
+    if (ME_RECORD) ME_RECORD.visible_to_community = visible;
+    toast(visible ? (icon('check-circle',{size:16}) + ' صار ملفك ظاهراً لبقية المستثمرين') : 'تم إخفاء ملفك');
+    renderCommunity(document.getElementById('content'));
+  }catch(err){
+    toast('تعذّر الحفظ، حاول مرة أخرى');
+  }
+}
+function podiumCell(r, cls, medal){
+  return `<div class="p ${cls}"><div class="medal">${medal}</div><div class="pname">${r.company.name}</div><div class="pval">SAR ${r.valuation.toLocaleString()}</div></div>`;
+}
+function computeRanking(evals){
+  const byCompany = {};
+  evals.forEach(e=>{
+    if (!byCompany[e.company_id]) byCompany[e.company_id] = { score:0, count:0, invest:0 };
+    const s = e.innovation + e.market_size + e.team + e.feasibility + e.investability;
+    byCompany[e.company_id].score += s;
+    byCompany[e.company_id].count += 1;
+    byCompany[e.company_id].invest += e.investment_amount;
+  });
+  const rows = COMPANIES.map(co=>{
+    const d = byCompany[co.id] || { score:0, count:0, invest:0 };
+    const valuation = (SETTINGS.winner_formula === 'investment_only')
+      ? Math.round(d.invest)
+      : Math.round(d.score * 40 + d.invest * 10);
+    return { company:co, valuation, evalCount:d.count };
+  });
+  rows.sort((a,b)=>b.valuation - a.valuation);
+  return rows;
+}
+
+/* ============================================================
+   بوابة فريق الشركة (مدمجة من register.html — أسماء مُعاد تسميتها
+   بادئة REG_ لتفادي أي تعارض مع متغيرات صفحة المستثمر أعلاه)
+   ============================================================ */
+let REG_VIEW = 'landing';
+let EDIT_COMPANY = null;
+
+function renderCompanyPortal(){
+  const c = document.getElementById('reg_content');
+  if (REG_VIEW === 'landing') return renderRegLanding(c);
+  if (REG_VIEW === 'register') return renderRegisterForm(c);
+  if (REG_VIEW === 'editAuth') return renderEditAuth(c);
+  if (REG_VIEW === 'editForm') return renderEditForm(c);
+}
+
+function renderRegLanding(c){
+  c.innerHTML = `
+    <div class="section-title">تسجيل بيانات شركتك</div>
+    <p class="muted" style="margin-bottom:16px;">هذه الصفحة لفِرَق الشركات المشاركة فقط، لتسجيل أو تعديل بيانات شركتهم بأنفسهم مباشرة — بدون حاجة لطلب ذلك من المنظّم.</p>
+    <div style="display:grid; gap:14px;">
+      <div class="choice-card" onclick="REG_VIEW='register'; renderCompanyPortal();">
+        <div class="icon">${icon('briefcase',{size:34})}</div>
+        <b>تسجيل شركة جديدة</b>
+        <span>أول مرة تسجّلون بياناتكم في المنصة</span>
+      </div>
+      <div class="choice-card" onclick="REG_VIEW='editAuth'; renderCompanyPortal();">
+        <div class="icon">${icon('bar-chart',{size:34})}</div>
+        <b>عرض أداء شركتي وتعديل بياناتها</b>
+        <span>لديكم رمز وصول من التسجيل السابق</span>
+      </div>
+    </div>
+  `;
+}
+
+const COMPANY_ICON_OPTIONS = [
+  ['sparkles','ابتكار عام'], ['lightbulb','فكرة'], ['briefcase','أعمال'],
+  ['building-2','منشأة'], ['leaf','بيئة واستدامة'], ['zap','طاقة'],
+  ['flask-conical','أبحاث وعلوم'], ['trending-up','نمو واستثمار'],
+  ['globe','تقنية عالمية'], ['users','مجتمع'], ['target','أهداف'], ['award','تميز'],
+  ['stethoscope','صحة'], ['graduation-cap','تعليم'], ['package','لوجستيات']
+];
+
+function companyFormFields(values){
+  values = values || {};
+  const currentIcon = values.emoji || 'briefcase';
+  return `
+    <div class="admin-grid">
+      <div class="field"><label>اسم الشركة *</label><input id="f_name" type="text" value="${values.name||''}" ${values.lockName?'disabled':''}></div>
+      <div class="field"><label>القطاع</label><input id="f_sector" type="text" placeholder="مثال: الصحة" value="${values.sector||''}"></div>
+      <div class="field"><label>رقم المشروع *</label><input id="f_booth" type="text" placeholder="1" value="${values.booth_number||''}"></div>
+      <div class="field"><label>أعضاء الفريق</label><input id="f_team" type="text" value="${values.team_members||''}"></div>
+    </div>
+    <div class="field">
+      <label>أيقونة الشركة</label>
+      <input type="hidden" id="f_emoji" value="${currentIcon}">
+      <div class="icon-grid">
+        ${COMPANY_ICON_OPTIONS.map(([val,label])=>`
+          <div class="icon-tile ${currentIcon===val?'selected':''}" data-val="${val}" onclick="selectCompanyIcon('${val}')">
+            <div class="icon-tile-icon">${icon(val,{size:22})}</div>
+            <div class="icon-tile-label">${label}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    <div class="field"><label>المشكلة</label><textarea id="f_problem">${values.problem||''}</textarea></div>
+    <div class="field"><label>الحل</label><textarea id="f_solution">${values.solution||''}</textarea></div>
+    <div class="field"><label>القيمة المقترحة</label><textarea id="f_value">${values.value_prop||''}</textarea></div>
+    <div class="field"><label>رابط فيديو (اختياري)</label><input id="f_video" type="text" value="${values.video_url||''}"></div>
+  `;
+}
+function selectCompanyIcon(val){
+  const input = document.getElementById('f_emoji');
+  if (input) input.value = val;
+  document.querySelectorAll('.icon-tile').forEach(t=>t.classList.toggle('selected', t.dataset.val===val));
+}
+function readCompanyForm(){
+  return {
+    name: document.getElementById('f_name').value.trim(),
+    sector: document.getElementById('f_sector').value.trim(),
+    emoji: document.getElementById('f_emoji').value.trim() || 'briefcase',
+    booth_number: document.getElementById('f_booth').value.trim(),
+    team_members: document.getElementById('f_team').value.trim(),
+    problem: document.getElementById('f_problem').value.trim(),
+    solution: document.getElementById('f_solution').value.trim(),
+    value_prop: document.getElementById('f_value').value.trim(),
+    video_url: document.getElementById('f_video').value.trim()
+  };
+}
+
+function renderRegisterForm(c){
+  c.innerHTML = `
+    <div class="section-title">تسجيل شركة جديدة</div>
+    ${companyFormFields()}
+    <div class="section-title mt24">رمز الوصول</div>
+    <p class="muted" style="margin-bottom:10px;">اختاروا رمزاً (أرقام أو أحرف) تحتفظون به — تحتاجونه لاحقاً لتعديل بياناتكم. لا يمكن استرجاعه إن نسيتموه.</p>
+    <div class="admin-grid">
+      <div class="field"><label>رمز الوصول</label><input id="f_code" type="password" placeholder="6 أحرف على الأقل"></div>
+      <div class="field"><label>تأكيد رمز الوصول</label><input id="f_code2" type="password" placeholder="أعد كتابته"></div>
+    </div>
+    <div class="action-row">
+      <button class="btn btn-outline btn-block" onclick="REG_VIEW='landing'; renderCompanyPortal();">‹ رجوع</button>
+      <button class="btn btn-gold btn-block" onclick="submitRegister()">${icon('check-circle',{size:16})} تسجيل الشركة</button>
+    </div>
+  `;
+}
+
+async function submitRegister(){
+  const fields = readCompanyForm();
+  fields.group_tag = SETTINGS.active_group || null;
+  const code = document.getElementById('f_code').value;
+  const code2 = document.getElementById('f_code2').value;
+  if (!fields.name){ toast('الرجاء إدخال اسم الشركة'); return; }
+  if (!fields.booth_number){ toast('الرجاء إدخال رقم المشروع'); return; }
+  if (!code || code.length < 6){ toast('رمز الوصول يجب أن يكون 6 أحرف على الأقل'); return; }
+  if (code !== code2){ toast('رمزا الوصول غير متطابقين'); return; }
+  try{
+    await DB.registerCompany(fields, code);
+    toast(icon('sparkles',{size:16}) + ' تم تسجيل شركتكم بنجاح');
+    REG_VIEW = 'landing'; renderCompanyPortal();
+  }catch(err){
+    console.error('registerCompany failed:', err);
+    const msg = (err && (err.message || err.details || err.hint)) || 'خطأ غير معروف';
+    toast('تعذّر التسجيل: ' + msg);
+  }
+}
+
+function renderEditAuth(c){
+  c.innerHTML = `
+    <div class="section-title">عرض أداء الشركة وتعديل بياناتها</div>
+    <div class="field"><label>اسم الشركة</label><input id="auth_name" type="text"></div>
+    <div class="field"><label>رمز الوصول</label><input id="auth_code" type="password"></div>
+    <div class="action-row">
+      <button class="btn btn-outline btn-block" onclick="REG_VIEW='landing'; renderCompanyPortal();">‹ رجوع</button>
+      <button class="btn btn-teal btn-block" onclick="submitEditAuth()">دخول</button>
+    </div>
+  `;
+}
+
+async function submitEditAuth(){
+  const name = document.getElementById('auth_name').value.trim();
+  const code = document.getElementById('auth_code').value;
+  if (!name || !code){ toast('الرجاء إدخال اسم الشركة ورمز الوصول'); return; }
+  try{
+    const co = await DB.verifyCompanyAccess(name, code);
+    if (!co){ toast('اسم الشركة أو رمز الوصول غير صحيح'); return; }
+    EDIT_COMPANY = { id: co.id, name: co.name, accessCode: code };
+    const [companies, visits, evals, investors] = await Promise.all([
+      DB.getCompanies(), DB.getAllVisits(), DB.getAllEvaluations(), DB.getAllInvestors()
+    ]);
+    EDIT_COMPANY.data = companies.find(x=>x.id===co.id) || {};
+    EDIT_COMPANY.visits = visits.filter(v=>v.company_id===co.id);
+    EDIT_COMPANY.evals = evals.filter(e=>e.company_id===co.id);
+    const investorMap = {}; investors.forEach(i=>investorMap[i.id]=i.name);
+    EDIT_COMPANY.investorMap = investorMap;
+    REG_VIEW = 'editForm'; renderCompanyPortal();
+  }catch(err){
+    console.error(err);
+    toast('تعذّر الاتصال، حاول مرة أخرى');
+  }
+}
+
+const STATS_CRITERIA_LABELS = {
+  innovation:'الابتكار', market_size:'حجم السوق', team:'الفريق',
+  feasibility:'إمكانية التنفيذ', investability:'القابلية للاستثمار'
+};
+
+function renderEditForm(c){
+  const v = EDIT_COMPANY.data;
+  const evals = EDIT_COMPANY.evals || [];
+  const visits = EDIT_COMPANY.visits || [];
+  const investorMap = EDIT_COMPANY.investorMap || {};
+  const totalInvested = evals.reduce((s,e)=>s+e.investment_amount,0);
+  const avgByCriteria = {};
+  Object.keys(STATS_CRITERIA_LABELS).forEach(key=>{
+    avgByCriteria[key] = evals.length ? (evals.reduce((s,e)=>s+e[key],0)/evals.length) : 0;
+  });
+
+  c.innerHTML = `
+    <div class="section-title">أداء ${icon(v.emoji||'briefcase',{size:16})} ${v.name}</div>
+    <div class="admin-grid">
+      <div class="stat-card"><div class="num">${visits.length}</div><div class="lbl">زيارات مؤكدة</div></div>
+      <div class="stat-card"><div class="num">${evals.length}</div><div class="lbl">عدد المستثمرين المقيِّمين</div></div>
+      <div class="stat-card" style="grid-column:span 2;"><div class="num">${totalInvested.toLocaleString()}</div><div class="lbl">إجمالي المبلغ المستثمَر</div></div>
+    </div>
+
+    <div class="section-title mt24">متوسط التقييم لكل معيار</div>
+    <div class="card" style="margin-bottom:16px;">
+      ${Object.entries(STATS_CRITERIA_LABELS).map(([key,label])=>`
+        <div style="margin-bottom:12px;">
+          <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px;">
+            <span style="font-weight:700;">${label}</span>
+            <span class="muted">${avgByCriteria[key].toFixed(1)} / 5</span>
+          </div>
+          <div class="progress-bar"><div style="width:${avgByCriteria[key]/5*100}%; background:linear-gradient(90deg,var(--purple-dark),var(--purple));"></div></div>
+        </div>
+      `).join('')}
+      ${!evals.length ? '<p class="muted">لا توجد تقييمات بعد.</p>' : ''}
+    </div>
+
+    <div class="section-title">من استثمر في شركتكم (${evals.length})</div>
+    ${evals.length ? evals.slice().sort((a,b)=>b.investment_amount-a.investment_amount).map(e=>`
+      <div class="card" style="margin-bottom:10px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <b>${investorMap[e.investor_id]||'—'}</b>
+          <span style="font-weight:900; color:var(--purple); font-size:16px;">${e.investment_amount.toLocaleString()}</span>
+        </div>
+        ${e.notes ? `<p class="body-text" style="margin-top:8px; padding-top:8px; border-top:1px dashed var(--line); font-size:13px;">${icon('message-square',{size:14})} ${e.notes}</p>` : ''}
+      </div>
+    `).join('') : '<div class="card"><p class="muted">لم يستثمر أحد في شركتكم بعد.</p></div>'}
+
+    <div class="section-title mt24">تعديل بيانات الشركة</div>
+    ${companyFormFields({...v, lockName:true})}
+    <div class="action-row">
+      <button class="btn btn-outline btn-block" onclick="REG_VIEW='landing'; EDIT_COMPANY=null; renderCompanyPortal();">‹ رجوع</button>
+      <button class="btn btn-purple btn-block" onclick="submitEditSave()">${icon('save',{size:16})} حفظ التعديلات</button>
+    </div>
+  `;
+}
+
+async function submitEditSave(){
+  const fields = readCompanyForm();
+  if (!fields.booth_number){ toast('الرجاء إدخال رقم المشروع'); return; }
+  try{
+    await DB.updateCompanyProfile(EDIT_COMPANY.id, EDIT_COMPANY.accessCode, fields);
+    toast(icon('check-circle',{size:16}) + ' تم حفظ التعديلات');
+    REG_VIEW = 'landing'; EDIT_COMPANY = null; renderCompanyPortal();
+  }catch(err){
+    console.error('updateCompanyProfile failed:', err);
+    const msg = (err && (err.message || err.details || err.hint)) || 'خطأ غير معروف';
+    toast('تعذّر الحفظ: ' + msg);
+  }
+}
+</script>
+<!-- ============ بوابة فريق الشركة ============ -->
+<div class="app" id="companyPortal" style="display:none; max-width:640px;">
+  <div class="topbar">
+    <div class="toprow">
+      <div id="reg_topLogo"></div>
+      <button class="btn btn-sm btn-outline" onclick="goToRole()">‹ رجوع لاختيار الدور</button>
+    </div>
+    <div style="font-size:10px; font-weight:800; letter-spacing:1.5px; color:var(--teal); text-transform:uppercase; padding-bottom:8px;">Innovation Marketplace — تسجيل الشركات</div>
+  </div>
+
+  <div class="content" id="reg_content"></div>
+</div>
+
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(err => console.warn('SW registration failed:', err));
+  });
+}
+</script>
+</body>
+</html>
